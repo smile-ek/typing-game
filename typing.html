@@ -13,7 +13,7 @@
         .word, .romaji, #result {
             font-size: 28px;
             margin: 20px 0;
-            display: none; /* 最初は非表示 */
+            display: none;
         }
         .romaji span {
             letter-spacing: 5px;
@@ -36,11 +36,14 @@
     <p class="word" id="wordDisplay"></p>
     <p class="romaji" id="romajiDisplay"></p>
     <p id="result"></p>
+    <p id="questionCounter"></p>
 
     <script>
         let questions = []; // 問題リスト
         let currentQuestion = {}; // 現在の問題
         let currentIndex = 0;
+        let questionCount = 0; // 出題カウント
+        const maxQuestions = 3; // 出題する問題数
 
         // JSONファイルを読み込む
         async function loadQuestions() {
@@ -50,15 +53,24 @@
 
         // ランダムな問題をセットする
         function setRandomQuestion() {
+            if (questionCount >= maxQuestions) {
+                document.getElementById("result").textContent = "ゲームクリア！";
+                document.getElementById("questionCounter").textContent = "";
+                return;
+            }
+
             currentIndex = 0;
             currentQuestion = questions[Math.floor(Math.random() * questions.length)];
-            
+            questionCount++;
+
             // 画面に表示
             document.getElementById("wordDisplay").textContent = currentQuestion.question;
             document.getElementById("romajiDisplay").innerHTML = currentQuestion.answer
                 .split("")
                 .map(letter => `<span>${letter.toUpperCase()}</span>`)
                 .join("");
+            
+            document.getElementById("questionCounter").textContent = `問題 ${questionCount} / ${maxQuestions}`;
         }
 
         // スタートボタンの処理
@@ -66,6 +78,7 @@
             document.getElementById("startButton").style.display = "none"; // ボタンを非表示
             document.getElementById("wordDisplay").style.display = "block";
             document.getElementById("romajiDisplay").style.display = "block";
+            document.getElementById("questionCounter").style.display = "block";
 
             setRandomQuestion(); // ランダムな問題をセット
         });
@@ -73,6 +86,7 @@
         // タイピングの処理
         document.addEventListener("keydown", function(event) {
             if (!currentQuestion.answer) return; // 問題がセットされていないときは無視
+            if (currentIndex >= currentQuestion.answer.length) return; // すでにクリアしていたら無視
 
             const key = event.key.toLowerCase();
             const targetLetter = currentQuestion.answer[currentIndex];
@@ -82,7 +96,11 @@
                 currentIndex++;
 
                 if (currentIndex === currentQuestion.answer.length) {
-                    document.getElementById("result").textContent = "クリア！";
+                    document.getElementById("result").textContent = "正解！";
+                    setTimeout(() => {
+                        document.getElementById("result").textContent = "";
+                        setRandomQuestion(); // 次の問題へ
+                    }, 1000);
                 }
             }
         });
