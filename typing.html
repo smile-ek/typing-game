@@ -117,6 +117,38 @@
             setRandomQuestion();
         });
 
+        // **キー入力の処理を追加**
+        document.addEventListener("keydown", function(event) {
+            if (!currentAnswerList || currentAnswerList.length === 0) return; // 問題がセットされていないときは無視
+            if (currentIndex >= currentAnswerList[0].length) return; // すでにクリアしていたら無視
+
+            const key = event.key.toLowerCase();
+            let matched = false;
+            let validAnswer = "";
+
+            // すべての可能な入力をチェック
+            for (let option of currentAnswerList) {
+                if (option[currentIndex] === key) {
+                    matched = true;
+                    validAnswer = option; // 正しいパターンに切り替え
+                    break;
+                }
+            }
+
+            if (matched) {
+                document.querySelectorAll("#romajiDisplay span")[currentIndex].classList.add("correct");
+                currentIndex++;
+
+                // すべての文字を入力したら「正解！」を表示
+                if (currentIndex === validAnswer.length) {
+                    document.getElementById("result").textContent = "正解！";
+                    setTimeout(() => {
+                        setRandomQuestion(); // 次の問題へ
+                    }, 1000);
+                }
+            }
+        });
+
         // ゲーム開始時に問題をロード
         loadQuestions();
     </script>
