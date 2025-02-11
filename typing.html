@@ -104,6 +104,7 @@
                 .map(letter => `<span>${letter.toUpperCase()}</span>`)
                 .join("");
 
+            document.getElementById("questionCounter").textContent = `問題 ${questionCount} / ${maxQuestions}`;
             document.getElementById("result").textContent = "";
         }
 
