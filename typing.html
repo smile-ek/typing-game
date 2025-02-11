@@ -10,7 +10,7 @@
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
         }
-        .word, .romaji, #result {
+        .word, .romaji, #result, #questionCounter {
             font-size: 28px;
             margin: 20px 0;
             display: none;
@@ -71,6 +71,7 @@
                 .join("");
             
             document.getElementById("questionCounter").textContent = `問題 ${questionCount} / ${maxQuestions}`;
+            document.getElementById("result").textContent = ""; // 「正解！」を消す
         }
 
         // スタートボタンの処理
@@ -96,9 +97,11 @@
                 currentIndex++;
 
                 if (currentIndex === currentQuestion.answer.length) {
+                    // すべての文字を入力したら「正解！」を表示
                     document.getElementById("result").textContent = "正解！";
+
+                    // 1秒後に次の問題へ進む
                     setTimeout(() => {
-                        document.getElementById("result").textContent = "";
                         setRandomQuestion(); // 次の問題へ
                     }, 1000);
                 }
