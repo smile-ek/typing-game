@@ -9,35 +9,44 @@
             text-align: center;
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
-            width: 100%;
-            height: 100%;
         }
         .word {
-            font-size: 32px; /* 文字を大きく */
-            margin: 30px 0;
+            font-size: 32px;
+            margin: 20px 0;
         }
-        input {
-            font-size: 24px; /* 入力欄の文字を大きく */
-            padding: 8px;
+        .romaji {
+            font-size: 28px;
+            letter-spacing: 5px;
+        }
+        .correct {
+            color: green;
         }
     </style>
 </head>
 <body>
     <h2>タイピングゲーム</h2>
     <p class="word">あいうえお</p>
-    <input type="text" id="inputBox" placeholder="ローマ字で入力">
+    <p class="romaji" id="romajiDisplay">
+        <span>A</span><span>I</span><span>U</span><span>E</span><span>O</span>
+    </p>
     <p id="result"></p>
 
     <script>
-        document.getElementById("inputBox").addEventListener("input", function() {
-            const answer = "aiueo"; // 正解のローマ字
-            const userInput = this.value.toLowerCase(); // 入力を小文字に統一
+        const answer = "AIUEO"; // 正解のローマ字
+        let currentIndex = 0; // 何文字目を判定するか
 
-            if (userInput === answer) {
-                document.getElementById("result").textContent = "正解！";
-                document.getElementById("result").style.color = "green";
-            } else {
-                document.getElementById("result").textContent = "";
+        document.addEventListener("keydown", function(event) {
+            const key = event.key.toUpperCase(); // 入力キーを大文字に変換
+            const targetLetter = answer[currentIndex]; // 現在のターゲット文字
+
+            if (key === targetLetter) {
+                // 正解なら文字の色を変える
+                document.querySelectorAll("#romajiDisplay span")[currentIndex].classList.add("correct");
+                currentIndex++; // 次の文字へ
+
+                if (currentIndex === answer.length) {
+                    document.getElementById("result").textContent = "クリア！";
+                }
             }
         });
     </script>
