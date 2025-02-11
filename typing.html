@@ -83,30 +83,45 @@
             return romajiList;
         }
 
-        // ランダムな問題をセットする
-        function setRandomQuestion() {
-            if (questionCount >= maxQuestions) {
-                document.getElementById("result").textContent = "ゲームクリア！";
-                return;
-            }
+async function loadCSV() {
+    const response = await fetch("problems.csv");
+    const text = await response.text();
+    const lines = text.split("\n").map(line => line.trim()).filter(line => line);
 
-            currentIndex = 0;
-            currentQuestion = questions[Math.floor(Math.random() * questions.length)];
-            questionCount++;
+    questions = lines.map(line => {
+        const [kanji, hiragana] = line.split(",");
+        return { kanji, hiragana };
+    });
+}
 
-            // ひらがな → ローマ字変換
-            currentAnswerList = convertToRomaji(currentQuestion.question);
+// 問題をセットする関数を修正
+function setRandomQuestion() {
+    if (questionCount >= maxQuestions) {
+        document.getElementById("result").textContent = "ゲームクリア！";
+        return;
+    }
 
-            // 画面に表示
-            document.getElementById("wordDisplay").textContent = currentQuestion.question;
-            document.getElementById("romajiDisplay").innerHTML = currentAnswerList[0]
-                .split("")
-                .map(letter => `<span>${letter.toUpperCase()}</span>`)
-                .join("");
+    currentIndex = 0;
+    currentQuestion = questions[Math.floor(Math.random() * questions.length)];
+    questionCount++;
 
-            document.getElementById("questionCounter").textContent = `問題 ${questionCount} / ${maxQuestions}`;
-            document.getElementById("result").textContent = "";
-        }
+    // ひらがなをローマ字に変換
+    currentAnswerList = convertToRomaji(currentQuestion.hiragana);
+
+    // **漢字交じりの文を大きく、ひらがなをその下に表示**
+    document.getElementById("wordDisplay").innerHTML = `<span style="font-size: 32px; font-weight: bold;">${currentQuestion.kanji}</span><br><span style="font-size: 24px;">${currentQuestion.hiragana}</span>`;
+
+    document.getElementById("romajiDisplay").innerHTML = currentAnswerList[0]
+        .split("")
+        .map(letter => `<span>${letter.toUpperCase()}</span>`)
+        .join("");
+
+    document.getElementById("result").textContent = "";
+}
+
+// ゲーム開始時にCSVを読み込む
+loadCSV();
+
 
         // スタートボタンの処理
         document.getElementById("startButton").addEventListener("click", function() {
