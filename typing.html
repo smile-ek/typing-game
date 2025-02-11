@@ -31,44 +31,64 @@
 <body>
     <h2>タイピングゲーム</h2>
     
-    <!-- スタートボタン -->
     <button id="startButton">スタート</button>
 
-    <!-- 問題表示エリア（最初は非表示） -->
-    <p class="word" id="wordDisplay">あいうえお</p>
-    <p class="romaji" id="romajiDisplay">
-        <span>A</span><span>I</span><span>U</span><span>E</span><span>O</span>
-    </p>
+    <p class="word" id="wordDisplay"></p>
+    <p class="romaji" id="romajiDisplay"></p>
     <p id="result"></p>
 
     <script>
-        const answer = "AIUEO"; // 正解のローマ字
-        let currentIndex = 0; // 何文字目を判定するか
+        let questions = []; // 問題リスト
+        let currentQuestion = {}; // 現在の問題
+        let currentIndex = 0;
 
-        // スタートボタンが押されたらゲーム開始
+        // JSONファイルを読み込む
+        async function loadQuestions() {
+            const response = await fetch("questions.json");
+            questions = await response.json();
+        }
+
+        // ランダムな問題をセットする
+        function setRandomQuestion() {
+            currentIndex = 0;
+            currentQuestion = questions[Math.floor(Math.random() * questions.length)];
+            
+            // 画面に表示
+            document.getElementById("wordDisplay").textContent = currentQuestion.question;
+            document.getElementById("romajiDisplay").innerHTML = currentQuestion.answer
+                .split("")
+                .map(letter => `<span>${letter.toUpperCase()}</span>`)
+                .join("");
+        }
+
+        // スタートボタンの処理
         document.getElementById("startButton").addEventListener("click", function() {
             document.getElementById("startButton").style.display = "none"; // ボタンを非表示
-            document.getElementById("wordDisplay").style.display = "block"; // 問題表示
-            document.getElementById("romajiDisplay").style.display = "block"; // ローマ字表示
+            document.getElementById("wordDisplay").style.display = "block";
+            document.getElementById("romajiDisplay").style.display = "block";
+
+            setRandomQuestion(); // ランダムな問題をセット
         });
 
-        // キー入力を検知
+        // タイピングの処理
         document.addEventListener("keydown", function(event) {
-            if (currentIndex >= answer.length) return; // 既に終わっていたら何もしない
+            if (!currentQuestion.answer) return; // 問題がセットされていないときは無視
 
-            const key = event.key.toUpperCase(); // 入力キーを大文字に変換
-            const targetLetter = answer[currentIndex]; // 現在のターゲット文字
+            const key = event.key.toLowerCase();
+            const targetLetter = currentQuestion.answer[currentIndex];
 
             if (key === targetLetter) {
-                // 正解なら文字の色を変える
                 document.querySelectorAll("#romajiDisplay span")[currentIndex].classList.add("correct");
-                currentIndex++; // 次の文字へ
+                currentIndex++;
 
-                if (currentIndex === answer.length) {
+                if (currentIndex === currentQuestion.answer.length) {
                     document.getElementById("result").textContent = "クリア！";
                 }
             }
         });
+
+        // ゲーム開始時に問題をロード
+        loadQuestions();
     </script>
 </body>
 </html>
