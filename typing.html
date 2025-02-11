@@ -125,30 +125,39 @@
 
             const key = event.key.toLowerCase();
             let matched = false;
+            let newAnswer = null; // 更新するための新しいローマ字表記
 
             // すべての可能な入力をチェック
             for (let option of currentAnswerList) {
-                if (option[currentIndex] === key) {
+                if (option.startsWith(currentAnswerList[0].substring(0, currentIndex) + key)) {
                     matched = true;
+                    newAnswer = option; // ユーザーの入力に合うパターンを選択
                     break;
                 }
             }
 
             if (matched) {
+                currentAnswerList[0] = newAnswer; // 新しいパターンに更新
                 document.querySelectorAll("#romajiDisplay span")[currentIndex].classList.add("correct");
                 currentIndex++;
 
-                // **バリエーションを考慮し、どの正解パターンの長さでもOKとする**
-                let allMatched = currentAnswerList.some(answer => currentIndex === answer.length);
+                // **表示を更新（ユーザーの入力に合わせたローマ字を反映）**
+                document.getElementById("romajiDisplay").innerHTML = currentAnswerList[0]
+                    .split("")
+                    .map(letter => `<span>${letter.toUpperCase()}</span>`)
+                    .join("");
 
+                // すべての文字を入力したら「正解！」を表示
+                let allMatched = currentAnswerList.some(answer => currentIndex === answer.length);
                 if (allMatched) {
                     document.getElementById("result").textContent = "正解！";
                     setTimeout(() => {
-                        setRandomQuestion(); // **次の問題へ進む**
+                        setRandomQuestion(); // 次の問題へ
                     }, 1000);
                 }
             }
         });
+
 
 
         // ゲーム開始時に問題をロード
