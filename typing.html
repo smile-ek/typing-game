@@ -10,22 +10,32 @@
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
         }
-        .word {
-            font-size: 32px;
-            margin: 20px 0;
-        }
-        .romaji {
+        .word, .romaji, #result {
             font-size: 28px;
+            margin: 20px 0;
+            display: none; /* 最初は非表示 */
+        }
+        .romaji span {
             letter-spacing: 5px;
         }
         .correct {
             color: green;
         }
+        #startButton {
+            font-size: 24px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <h2>タイピングゲーム</h2>
-    <p class="word">あいうえお</p>
+    
+    <!-- スタートボタン -->
+    <button id="startButton">スタート</button>
+
+    <!-- 問題表示エリア（最初は非表示） -->
+    <p class="word" id="wordDisplay">あいうえお</p>
     <p class="romaji" id="romajiDisplay">
         <span>A</span><span>I</span><span>U</span><span>E</span><span>O</span>
     </p>
@@ -35,7 +45,17 @@
         const answer = "AIUEO"; // 正解のローマ字
         let currentIndex = 0; // 何文字目を判定するか
 
+        // スタートボタンが押されたらゲーム開始
+        document.getElementById("startButton").addEventListener("click", function() {
+            document.getElementById("startButton").style.display = "none"; // ボタンを非表示
+            document.getElementById("wordDisplay").style.display = "block"; // 問題表示
+            document.getElementById("romajiDisplay").style.display = "block"; // ローマ字表示
+        });
+
+        // キー入力を検知
         document.addEventListener("keydown", function(event) {
+            if (currentIndex >= answer.length) return; // 既に終わっていたら何もしない
+
             const key = event.key.toUpperCase(); // 入力キーを大文字に変換
             const targetLetter = answer[currentIndex]; // 現在のターゲット文字
 
