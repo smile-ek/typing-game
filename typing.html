@@ -43,7 +43,22 @@
         let currentQuestion = {}; // 現在の問題
         let currentIndex = 0;
         let questionCount = 0; // 出題カウント
+        let currentAnswerList = []; // 現在の回答リスト（複数の正解パターン）
         const maxQuestions = 3; // 出題する問題数
+
+        // ひらがな → ローマ字変換表
+        const hiraToRoma = {
+            "あ": ["a"], "い": ["i"], "う": ["u"], "え": ["e"], "お": ["o"],
+            "か": ["ka"], "き": ["ki"], "く": ["ku"], "け": ["ke"], "こ": ["ko"],
+            "さ": ["sa"], "し": ["si", "shi"], "す": ["su"], "せ": ["se"], "そ": ["so"],
+            "た": ["ta"], "ち": ["ti", "chi"], "つ": ["tu", "tsu"], "て": ["te"], "と": ["to"],
+            "な": ["na"], "に": ["ni"], "ぬ": ["nu"], "ね": ["ne"], "の": ["no"],
+            "は": ["ha"], "ひ": ["hi"], "ふ": ["hu", "fu"], "へ": ["he"], "ほ": ["ho"],
+            "ま": ["ma"], "み": ["mi"], "む": ["mu"], "め": ["me"], "も": ["mo"],
+            "や": ["ya"], "ゆ": ["yu"], "よ": ["yo"],
+            "ら": ["ra"], "り": ["ri"], "る": ["ru"], "れ": ["re"], "ろ": ["ro"],
+            "わ": ["wa"], "を": ["wo"], "ん": ["n"]
+        };
 
         // JSONファイルを読み込む
         async function loadQuestions() {
@@ -51,11 +66,27 @@
             questions = await response.json();
         }
 
+        // ひらがなをローマ字に変換
+        function convertToRomaji(hiragana) {
+            let romajiList = [""];
+            for (const char of hiragana) {
+                if (hiraToRoma[char]) {
+                    let newRomajiList = [];
+                    for (const prefix of romajiList) {
+                        for (const variant of hiraToRoma[char]) {
+                            newRomajiList.push(prefix + variant);
+                        }
+                    }
+                    romajiList = newRomajiList;
+                }
+            }
+            return romajiList;
+        }
+
         // ランダムな問題をセットする
         function setRandomQuestion() {
             if (questionCount >= maxQuestions) {
                 document.getElementById("result").textContent = "ゲームクリア！";
-                document.getElementById("questionCounter").textContent = "";
                 return;
             }
 
@@ -63,50 +94,27 @@
             currentQuestion = questions[Math.floor(Math.random() * questions.length)];
             questionCount++;
 
+            // ひらがな → ローマ字変換
+            currentAnswerList = convertToRomaji(currentQuestion.question);
+
             // 画面に表示
             document.getElementById("wordDisplay").textContent = currentQuestion.question;
-            document.getElementById("romajiDisplay").innerHTML = currentQuestion.answer
+            document.getElementById("romajiDisplay").innerHTML = currentAnswerList[0]
                 .split("")
                 .map(letter => `<span>${letter.toUpperCase()}</span>`)
                 .join("");
-            
-            document.getElementById("questionCounter").textContent = `問題 ${questionCount} / ${maxQuestions}`;
-            document.getElementById("result").textContent = ""; // 「正解！」を消す
+
+            document.getElementById("result").textContent = "";
         }
 
         // スタートボタンの処理
         document.getElementById("startButton").addEventListener("click", function() {
-            document.getElementById("startButton").style.display = "none"; // ボタンを非表示
+            document.getElementById("startButton").style.display = "none";
             document.getElementById("wordDisplay").style.display = "block";
             document.getElementById("romajiDisplay").style.display = "block";
             document.getElementById("result").style.display = "block";
-            document.getElementById("questionCounter").style.display = "block";
 
-            setRandomQuestion(); // ランダムな問題をセット
-        });
-
-        // タイピングの処理
-        document.addEventListener("keydown", function(event) {
-            if (!currentQuestion.answer) return; // 問題がセットされていないときは無視
-            if (currentIndex >= currentQuestion.answer.length) return; // すでにクリアしていたら無視
-
-            const key = event.key.toLowerCase();
-            const targetLetter = currentQuestion.answer[currentIndex];
-
-            if (key === targetLetter) {
-                document.querySelectorAll("#romajiDisplay span")[currentIndex].classList.add("correct");
-                currentIndex++;
-
-                if (currentIndex === currentQuestion.answer.length) {
-                    // すべての文字を入力したら「正解！」を表示
-                    document.getElementById("result").textContent = "正解！";
-
-                    // 1秒後に次の問題へ進む
-                    setTimeout(() => {
-                        setRandomQuestion(); // 次の問題へ
-                    }, 1000);
-                }
-            }
+            setRandomQuestion();
         });
 
         // ゲーム開始時に問題をロード
