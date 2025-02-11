@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>タイピングゲーム</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .word {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        input {
+            font-size: 18px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>タイピングゲーム</h2>
+    <p class="word">あいうえお</p>
+    <input type="text" id="inputBox" placeholder="ローマ字で入力">
+    <p id="result"></p>
+
+    <script>
+        document.getElementById("inputBox").addEventListener("input", function() {
+            const answer = "aiueo"; // 正解のローマ字
+            const userInput = this.value.toLowerCase(); // 入力を小文字に統一
+
+            if (userInput === answer) {
+                document.getElementById("result").textContent = "正解！";
+                document.getElementById("result").style.color = "green";
+            } else {
+                document.getElementById("result").textContent = "";
+            }
+        });
+    </script>
+</body>
+</html>
