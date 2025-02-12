@@ -90,11 +90,17 @@ const hiraToRoma = {
     "ゃ": ["ya", "lya", "xya"], "ゅ": ["yu", "lyu", "xyu"], "ょ": ["yo", "lyo", "xyo"]
 };
 
-        // JSONファイルを読み込む
-        async function loadQuestions() {
-            const response = await fetch("questions.json");
-            questions = await response.json();
-        }
+// JSONファイルを読み込む（`loadQuestions()` に統一）
+async function loadQuestions() {
+    const response = await fetch("questions.json");
+    questions = await response.json();
+    console.log("JSONデータの読み込み完了:", questions); // **デバッグ用**
+}
+
+// ページ読み込み時に JSON を取得
+window.onload = async function() {
+    await loadQuestions();
+};
 
         // ひらがなをローマ字に変換
 function convertToRomaji(hiragana) {
@@ -174,17 +180,6 @@ function convertToRomaji(hiragana) {
     return romajiList;
 }
 
-async function loadJSON() {
-    const response = await fetch("./questions.json");
-    questions = await response.json();
-
-    console.log("JSONデータの読み込み完了:", questions);
-}
-
-        window.onload = async function() {
-    await loadJSON();
-    console.log("問題データ:", questions);
-};
 
 // 問題をセットする関数を修正
 function setRandomQuestion() {
