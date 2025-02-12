@@ -237,11 +237,6 @@ function setRandomQuestion() {
 
     document.getElementById("result").textContent = "";
 }
-
-// ゲーム開始時にCSVを読み込む
-loadCSV();
-
-
         // スタートボタンの処理
         document.getElementById("startButton").addEventListener("click", function() {
             document.getElementById("startButton").style.display = "none";
@@ -297,10 +292,6 @@ loadCSV();
             }
         });
 
-
-
-        // ゲーム開始時に問題をロード
-        loadQuestions();
     </script>
 </body>
 </html>
