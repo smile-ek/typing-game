@@ -1,5 +1,9 @@
 [
-    { "question": "ちかてつ" },
-    { "question": "しんかんせん" },
-    { "question": "すし" }
+    {"kanji": "電車に乗る", "hiragana": "でんしゃにのる"},
+    {"kanji": "駅に着く", "hiragana": "えきにつく"},
+    {"kanji": "学校へ行く", "hiragana": "がっこうへいく"},
+    {"kanji": "手を洗う", "hiragana": "てをあらう"},
+    {"kanji": "給食を食べる", "hiragana": "きゅうしょくをたべる"},
+    {"kanji": "ノートを開く", "hiragana": "のーとをひらく"},
+    {"kanji": "宿題をする", "hiragana": "しゅくだいをする"}
 ]
