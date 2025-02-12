@@ -202,7 +202,7 @@ function setRandomQuestion() {
     currentQuestion = questions[Math.floor(Math.random() * questions.length)];
     questionCount++;
 
-    // ひらがなをローマ字に変換
+    // **B列（ひらがな）のみをローマ字変換**
     currentAnswerList = convertToRomaji(currentQuestion.hiragana);
 
     // **漢字交じりの文を大きく、ひらがなをその下に表示**
