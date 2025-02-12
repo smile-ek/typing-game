@@ -47,18 +47,56 @@
         const maxQuestions = 3; // 出題する問題数
 
         // ひらがな → ローマ字変換表
-        const hiraToRoma = {
-            "あ": ["a"], "い": ["i"], "う": ["u"], "え": ["e"], "お": ["o"],
-            "か": ["ka"], "き": ["ki"], "く": ["ku"], "け": ["ke"], "こ": ["ko"],
-            "さ": ["sa"], "し": ["si", "shi"], "す": ["su"], "せ": ["se"], "そ": ["so"],
-            "た": ["ta"], "ち": ["ti", "chi"], "つ": ["tu", "tsu"], "て": ["te"], "と": ["to"],
-            "な": ["na"], "に": ["ni"], "ぬ": ["nu"], "ね": ["ne"], "の": ["no"],
-            "は": ["ha"], "ひ": ["hi"], "ふ": ["hu", "fu"], "へ": ["he"], "ほ": ["ho"],
-            "ま": ["ma"], "み": ["mi"], "む": ["mu"], "め": ["me"], "も": ["mo"],
-            "や": ["ya"], "ゆ": ["yu"], "よ": ["yo"],
-            "ら": ["ra"], "り": ["ri"], "る": ["ru"], "れ": ["re"], "ろ": ["ro"],
-            "わ": ["wa"], "を": ["wo"], "ん": ["n", "nn"]
-        };
+// 基本の「ひらがな → ローマ字」マッピング
+const hiraToRoma = {
+    "あ": ["a"], "い": ["i"], "う": ["u"], "え": ["e"], "お": ["o"],
+    "か": ["ka"], "き": ["ki"], "く": ["ku"], "け": ["ke"], "こ": ["ko"],
+    "さ": ["sa"], "し": ["si", "shi"], "す": ["su"], "せ": ["se"], "そ": ["so"],
+    "た": ["ta"], "ち": ["ti", "chi"], "つ": ["tu", "tsu"], "て": ["te"], "と": ["to"],
+    "な": ["na"], "に": ["ni"], "ぬ": ["nu"], "ね": ["ne"], "の": ["no"],
+    "は": ["ha"], "ひ": ["hi"], "ふ": ["hu", "fu"], "へ": ["he"], "ほ": ["ho"],
+    "ま": ["ma"], "み": ["mi"], "む": ["mu"], "め": ["me"], "も": ["mo"],
+    "や": ["ya"], "ゆ": ["yu"], "よ": ["yo"],
+    "ら": ["ra"], "り": ["ri"], "る": ["ru"], "れ": ["re"], "ろ": ["ro"],
+    "わ": ["wa"], "を": ["wo"], "ん": ["n", "nn"],
+
+    // 濁音
+    "が": ["ga"], "ぎ": ["gi"], "ぐ": ["gu"], "げ": ["ge"], "ご": ["go"],
+    "ざ": ["za"], "じ": ["zi", "ji"], "ず": ["zu"], "ぜ": ["ze"], "ぞ": ["zo"],
+    "だ": ["da"], "ぢ": ["di"], "づ": ["du"], "で": ["de"], "ど": ["do"],
+    "ば": ["ba"], "び": ["bi"], "ぶ": ["bu"], "べ": ["be"], "ぼ": ["bo"],
+
+    // 半濁音
+    "ぱ": ["pa"], "ぴ": ["pi"], "ぷ": ["pu"], "ぺ": ["pe"], "ぽ": ["po"],
+
+    // 小さい「っ」
+    "っ": ["ltu", "xtu"],
+
+    // 長音（ー）は「-」のみにする
+    "ー": ["-"]
+};
+
+// **「ゃゅょ」の特別な変換を追加**
+Object.assign(hiraToRoma, {
+    "きゃ": ["kya"], "きゅ": ["kyu"], "きょ": ["kyo"],
+    "しゃ": ["sya", "sha"], "しゅ": ["syu", "shu"], "しょ": ["syo", "sho"],
+    "ちゃ": ["tya", "cha"], "ちゅ": ["tyu", "chu"], "ちょ": ["tyo", "cho"],
+    "にゃ": ["nya"], "にゅ": ["nyu"], "にょ": ["nyo"],
+    "ひゃ": ["hya"], "ひゅ": ["hyu"], "ひょ": ["hyo"],
+    "みゃ": ["mya"], "みゅ": ["myu"], "みょ": ["myo"],
+    "りゃ": ["rya"], "りゅ": ["ryu"], "りょ": ["ryo"],
+    "ぎゃ": ["gya"], "ぎゅ": ["gyu"], "ぎょ": ["gyo"],
+    "じゃ": ["zya", "ja"], "じゅ": ["zyu", "ju"], "じょ": ["zyo", "jo"],
+    "びゃ": ["bya"], "びゅ": ["byu"], "びょ": ["byo"],
+    "ぴゃ": ["pya"], "ぴゅ": ["pyu"], "ぴょ": ["pyo"]
+});
+
+// **小さい「ゃゅょ」の「lya」「xya」対応**
+Object.assign(hiraToRoma, {
+    "ゃ": ["ya", "lya", "xya"], "ゅ": ["yu", "lyu", "xyu"], "ょ": ["yo", "lyo", "xyo"]
+});
+
+
 
         // JSONファイルを読み込む
         async function loadQuestions() {
@@ -67,21 +105,80 @@
         }
 
         // ひらがなをローマ字に変換
-        function convertToRomaji(hiragana) {
-            let romajiList = [""];
-            for (const char of hiragana) {
-                if (hiraToRoma[char]) {
-                    let newRomajiList = [];
-                    for (const prefix of romajiList) {
-                        for (const variant of hiraToRoma[char]) {
-                            newRomajiList.push(prefix + variant);
-                        }
-                    }
-                    romajiList = newRomajiList;
+function convertToRomaji(hiragana) {
+    let romajiList = [""];
+    for (let i = 0; i < hiragana.length; i++) {
+        const char = hiragana[i];
+
+        // 「っ」の処理
+        if (char === "っ") {
+            let newRomajiList = [];
+
+            // 「ltu」「xtu」単独入力パターンを追加
+            for (const prefix of romajiList) {
+                for (const variant of hiraToRoma["っ"]) {
+                    newRomajiList.push(prefix + variant);
                 }
             }
-            return romajiList;
+
+            // 次の文字が子音なら、子音を重ねるパターンを追加
+            if (i + 1 < hiragana.length) {
+                let nextChar = hiraToRoma[hiragana[i + 1]];
+                if (nextChar) {
+                    let consonant = nextChar[0].charAt(0); // 次の文字の先頭の子音を取得
+                    if (consonant.match(/[bcdfghjklmnpqrstvwxyz]/)) {
+                        for (const prefix of romajiList) {
+                            newRomajiList.push(prefix + consonant);
+                        }
+                    }
+                }
+            }
+
+            romajiList = newRomajiList;
+            continue;
         }
+
+        // 「ゃゅょ」の処理（直前の文字と結合 or 「lya」「xya」対応）
+        if (smallKana[char] && i > 0) {
+            let prevChar = hiragana[i - 1] + char; // 例: 「き」+「ゃ」=「きゃ」
+            if (hiraToRoma[prevChar]) {
+                let newRomajiList = [];
+                for (const prefix of romajiList) {
+                    for (const variant of hiraToRoma[prevChar]) {
+                        newRomajiList.push(prefix.slice(0, -1) + variant); // 前の文字を削除して変換
+                    }
+                }
+                romajiList = newRomajiList;
+                continue;
+            }
+        }
+
+        // 小書き文字を単独で「lya」「xya」として入力
+        if (smallKana[char]) {
+            let newRomajiList = [];
+            for (const prefix of romajiList) {
+                for (const variant of smallKana[char]) {
+                    newRomajiList.push(prefix + variant);
+                }
+            }
+            romajiList = newRomajiList;
+            continue;
+        }
+
+        // 通常のひらがなをローマ字に変換
+        if (hiraToRoma[char]) {
+            let newRomajiList = [];
+            for (const prefix of romajiList) {
+                for (const variant of hiraToRoma[char]) {
+                    newRomajiList.push(prefix + variant);
+                }
+            }
+            romajiList = newRomajiList;
+        }
+    }
+    return romajiList;
+}
+
 
 async function loadCSV() {
     const response = await fetch("problems.csv");
