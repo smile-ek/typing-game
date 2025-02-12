@@ -123,6 +123,22 @@ function convertToRomaji(hiragana) {
             continue; // 変換できない文字はスキップ
         }
 
+              // **「しゅ」「しゃ」「しょ」などの特別な組み合わせを最初に処理**
+        if (i < hiragana.length - 1) { 
+            let combinedChar = char + hiragana[i + 1]; // 例: 「しゅ」
+            if (hiraToRoma[combinedChar]) {
+                let newRomajiList = [];
+                for (const prefix of romajiList) {
+                    for (const variant of hiraToRoma[combinedChar]) {
+                        newRomajiList.push(prefix + variant);
+                    }
+                }
+                romajiList = newRomajiList;
+                i++; // 2文字を処理したのでインデックスをスキップ
+                continue;
+            }
+        }
+
         // 「っ」の処理（単独「ltu」「xtu」 or 次の子音を重ねる）
         if (char === "っ") {
             let newRomajiList = [];
@@ -149,21 +165,6 @@ function convertToRomaji(hiragana) {
 
             romajiList = newRomajiList;
             continue;
-        }
-
-        // **「しゃ、しゅ、しょ」の処理（し＋ゃゅょを特別処理）**
-        if (i > 0) {
-            let prevChar = hiragana[i - 1] + char; // 例: 「し」+「ゅ」=「しゅ」
-            if (hiraToRoma[prevChar]) {
-                let newRomajiList = [];
-                for (const prefix of romajiList) {
-                    for (const variant of hiraToRoma[prevChar]) {
-                        newRomajiList.push(prefix.slice(0, -1) + variant); // 「し」を削除し、「しゅ」にする
-                    }
-                }
-                romajiList = newRomajiList;
-                continue; // すでに処理済みなので次のループへ
-            }
         }
         
         // **「ゃゅょ」の処理（単独「lya」「xya」対応）**
