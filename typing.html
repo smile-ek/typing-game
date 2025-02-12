@@ -130,27 +130,27 @@ function convertToRomaji(hiragana) {
             }
         }
 
-        // **「っ」の処理（単独「ltu」「xtu」 or 次の子音を重ねる）**
+        // **「っ」の処理（子音重ねを最優先）**
         if (char === "っ") {
-            let sortedVariants = [...hiraToRoma["っ"]];
-            sortedVariants.sort((a, b) => a.length - b.length); // 短いものを優先
+            let sortedVariants = [];
 
-            for (const prefix of romajiList) {
-                for (const variant of sortedVariants) {
-                    newRomajiList.push(prefix + variant);
-                }
-            }
-
-            // 次の文字が子音なら、子音を重ねるパターンを追加
+            // **次の文字が子音なら、子音を重ねるパターンを最優先**
             if (i + 1 < hiragana.length) {
                 let nextChar = hiraToRoma[hiragana[i + 1]];
                 if (nextChar) {
                     let consonant = nextChar[0].charAt(0);
                     if (consonant.match(/[bcdfghjklmnpqrstvwxyz]/)) {
-                        for (const prefix of romajiList) {
-                            newRomajiList.push(prefix + consonant);
-                        }
+                        sortedVariants.push(consonant); // 子音を重ねる
                     }
+                }
+            }
+
+            // **「ltu」「xtu」を後回しにする**
+            sortedVariants.push(...hiraToRoma["っ"]);
+
+            for (const prefix of romajiList) {
+                for (const variant of sortedVariants) {
+                    newRomajiList.push(prefix + variant);
                 }
             }
 
@@ -173,7 +173,6 @@ function convertToRomaji(hiragana) {
     console.log("変換結果: ", romajiList);
     return romajiList;
 }
-
 
 async function loadJSON() {
     const response = await fetch("./questions.json");
