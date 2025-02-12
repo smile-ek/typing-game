@@ -193,33 +193,19 @@ function convertToRomaji(hiragana) {
     return romajiList;
 }
 
-async function loadCSV() {
-    const response = await fetch("./problems.csv");
-    const text = await response.text();
-    
-    // **デバッグログ追加**
-    console.log("CSVデータの生データ:", text);
+async function loadJSON() {
+    const response = await fetch("./questions.json");
+    questions = await response.json();
 
-    const lines = text.split("\n").map(line => line.trim()).filter(line => line);
-
-    console.log("処理後のCSV行データ:", lines);
-
-    questions = lines.map(line => {
-        const parts = line.split(",").map(p => p.trim()); // **空白を削除**
-        
-        if (parts.length < 2) {
-            console.error("エラー: CSVのデータが不完全です", line);
-            return null;
-        }
-
-        return { kanji: parts[0], hiragana: parts[1] };
-    }).filter(q => q !== null);
-
-    console.log("パース後の問題データ:", questions);
+    console.log("JSONデータの読み込み完了:", questions);
 }
 
+        window.onload = async function() {
+    await loadJSON();
+    console.log("問題データ:", questions);
+};
+
 // 問題をセットする関数を修正
-        console.log("問題リスト:", questions);
 function setRandomQuestion() {
     if (questionCount >= maxQuestions) {
         document.getElementById("result").textContent = "ゲームクリア！";
