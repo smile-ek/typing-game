@@ -153,19 +153,19 @@ function convertToRomaji(hiragana) {
 
         // **「しゃ、しゅ、しょ」の処理（し＋ゃゅょを特別処理）**
         if (i > 0) {
-            let prevChar = hiragana[i - 1] + char; // 例: 「し」+「ゃ」=「しゃ」
+            let prevChar = hiragana[i - 1] + char; // 例: 「し」+「ゅ」=「しゅ」
             if (hiraToRoma[prevChar]) {
                 let newRomajiList = [];
                 for (const prefix of romajiList) {
                     for (const variant of hiraToRoma[prevChar]) {
-                        newRomajiList.push(prefix.slice(0, -1) + variant); // 「し」を削除し、「しゃ」にする
+                        newRomajiList.push(prefix.slice(0, -1) + variant); // 「し」を削除し、「しゅ」にする
                     }
                 }
                 romajiList = newRomajiList;
-                continue;
+                continue; // すでに処理済みなので次のループへ
             }
         }
-
+        
         // **「ゃゅょ」の処理（単独「lya」「xya」対応）**
         if (smallKana[char]) {
             let newRomajiList = [];
