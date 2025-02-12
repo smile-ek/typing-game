@@ -219,6 +219,7 @@ async function loadCSV() {
 }
 
 // 問題をセットする関数を修正
+        console.log("問題リスト:", questions);
 function setRandomQuestion() {
     if (questionCount >= maxQuestions) {
         document.getElementById("result").textContent = "ゲームクリア！";
