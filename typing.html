@@ -187,13 +187,16 @@
 
         // 問題をセットする関数を修正
         function setRandomQuestion() {
-            if (questionCount >= maxQuestions) {
-                document.getElementById("result").textContent = "ゲームクリア！";
-                return;
-            }
+            if (questionCount >= maxQuestions || remainingQuestions.length === 0) {
+            document.getElementById("result").textContent = "ゲームクリア！";
+            return;
+        }
 
             currentIndex = 0;
-            currentQuestion = questions[Math.floor(Math.random() * questions.length)];
+            let randomIndex = Math.floor(Math.random() * remainingQuestions.length);
+            currentQuestion = remainingQuestions[randomIndex];
+            // **出題済みの問題をリストから削除**
+            remainingQuestions.splice(randomIndex, 1);
             questionCount++;
 
             console.log("選ばれた問題:", currentQuestion); // デバッグ用
