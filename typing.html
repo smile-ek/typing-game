@@ -76,6 +76,12 @@
         #keyboard .row:nth-child(4) { /* 4段目を半キー分ずらす */
             margin-left: 60px;
         }
+        #handsContainer {
+            display: block; /* **SVGをブロック要素として扱う** */
+            text-align: center; /* **中央揃え（任意）** */
+            margin-top: 20px; /* **適度なスペース（任意）** */
+        }
+
         .finger {
             fill: lightgray; /* 指のデフォルト色 */
             stroke: black;
@@ -150,6 +156,7 @@
         <div class="key" id="keysla2">\</div>
     </div>
     </div>
+    <div id="handsContainer">
 <svg id="hands" viewBox="0 0 200 150" width="400" height="150">
     <!-- 左手 -->
     <g class="finger left" id="leftLittle">
@@ -187,6 +194,7 @@
         <circle cx="220" cy="50" r="10" fill="lightgray" stroke="black" stroke-width="2"/>
     </g>
 </svg>
+        </div>
 
     <p id="result"></p>
 
