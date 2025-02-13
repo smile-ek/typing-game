@@ -40,6 +40,7 @@
 
     <script>
         let questions = []; // 問題リスト
+        let remainingQuestions = []; // **ランダム出題用（ここから削除する）**
         let currentQuestion = {}; // 現在の問題
         let currentIndex = 0;
         let questionCount = 0; // 出題カウント
@@ -96,7 +97,8 @@
         async function loadQuestions() {
             const response = await fetch("questions.json");
             questions = await response.json();
-            console.log("JSONデータの読み込み完了:", questions); // **デバッグ用**
+            remainingQuestions = [...questions];
+            console.log("JSONデータの読み込み完了:", questions); // **デバッグ用**後で消す
         }
 
         // ページ読み込み時に JSON を取得
@@ -105,26 +107,69 @@
         };
 
         // ひらがなをローマ字に変換
-function convertToRomaji(hiragana) {
-    console.log("変換開始: ", hiragana);
-    let romajiList = [""];
+        function convertToRomaji(hiragana) {
+            console.log("変換開始: ", hiragana);
+            let romajiList = [""];
 
-    for (let i = 0; i < hiragana.length; i++) {
-        const char = hiragana[i];
+            for (let i = 0; i < hiragana.length; i++) {
+                const char = hiragana[i];
 
-        // **エラーチェック**
-        if (!hiraToRoma[char]) {
-            console.warn("変換できない文字:", char);
-            continue;
-        }
+                // **エラーチェック**
+                if (!hiraToRoma[char]) {
+                    console.warn("変換できない文字:", char);
+                    continue;
+                }
 
-        let newRomajiList = [];
+                let newRomajiList = [];
 
-        // **「しゅ」「しゃ」「しょ」などの2文字を最初に処理**
-        if (i < hiragana.length - 1) {
-            let combinedChar = char + hiragana[i + 1];
-            if (hiraToRoma[combinedChar]) {
-                let sortedVariants = [...hiraToRoma[combinedChar]];
+                // **「しゅ」「しゃ」「しょ」などの2文字を最初に処理**
+                if (i < hiragana.length - 1) {
+                    let combinedChar = char + hiragana[i + 1];
+                    if (hiraToRoma[combinedChar]) {
+                        let sortedVariants = [...hiraToRoma[combinedChar]];
+                        sortedVariants.sort((a, b) => a.length - b.length); // 短いものを優先
+
+                        for (const prefix of romajiList) {
+                            for (const variant of sortedVariants) {
+                                newRomajiList.push(prefix + variant);
+                            }
+                        }
+                        romajiList = newRomajiList;
+                        i++; // 2文字を処理したのでインデックスをスキップ
+                        continue;
+                    }
+                }
+
+                // **「っ」の処理（子音重ねを最優先）**
+                if (char === "っ") {
+                    let sortedVariants = [];
+
+                    // **次の文字が子音なら、子音を重ねるパターンを最優先**
+                    if (i + 1 < hiragana.length) {
+                        let nextChar = hiraToRoma[hiragana[i + 1]];
+                        if (nextChar) {
+                            let consonant = nextChar[0].charAt(0);
+                            if (consonant.match(/[bcdfghjklmnpqrstvwxyz]/)) {
+                                sortedVariants.push(consonant); // 子音を重ねる
+                            }
+                        }
+                    }
+
+                    // **「ltu」「xtu」を後回しにする**
+                    sortedVariants.push(...hiraToRoma["っ"]);
+
+                    for (const prefix of romajiList) {
+                        for (const variant of sortedVariants) {
+                            newRomajiList.push(prefix + variant);
+                        }
+                    }
+
+                    romajiList = newRomajiList;
+                    continue;
+                }
+
+                // **通常のひらがなをローマ字に変換**
+                let sortedVariants = [...hiraToRoma[char]];
                 sortedVariants.sort((a, b) => a.length - b.length); // 短いものを優先
 
                 for (const prefix of romajiList) {
@@ -133,88 +178,45 @@ function convertToRomaji(hiragana) {
                     }
                 }
                 romajiList = newRomajiList;
-                i++; // 2文字を処理したのでインデックスをスキップ
-                continue;
             }
+
+            console.log("変換結果: ", romajiList);
+            return romajiList;
         }
 
-        // **「っ」の処理（子音重ねを最優先）**
-        if (char === "っ") {
-            let sortedVariants = [];
 
-            // **次の文字が子音なら、子音を重ねるパターンを最優先**
-            if (i + 1 < hiragana.length) {
-                let nextChar = hiraToRoma[hiragana[i + 1]];
-                if (nextChar) {
-                    let consonant = nextChar[0].charAt(0);
-                    if (consonant.match(/[bcdfghjklmnpqrstvwxyz]/)) {
-                        sortedVariants.push(consonant); // 子音を重ねる
-                    }
-                }
+        // 問題をセットする関数を修正
+        function setRandomQuestion() {
+            if (questionCount >= maxQuestions) {
+                document.getElementById("result").textContent = "ゲームクリア！";
+                return;
             }
 
-            // **「ltu」「xtu」を後回しにする**
-            sortedVariants.push(...hiraToRoma["っ"]);
+            currentIndex = 0;
+            currentQuestion = questions[Math.floor(Math.random() * questions.length)];
+            questionCount++;
 
-            for (const prefix of romajiList) {
-                for (const variant of sortedVariants) {
-                    newRomajiList.push(prefix + variant);
-                }
+            console.log("選ばれた問題:", currentQuestion); // デバッグ用
+
+                // **エラーの原因がここにある可能性が高い**
+            if (!currentQuestion.hiragana) {
+                console.error("エラー: hiragana の値が undefined です", currentQuestion);
+                return;
             }
 
-            romajiList = newRomajiList;
-            continue;
+            // **B列（ひらがな）のみをローマ字変換**
+            currentAnswerList = convertToRomaji(currentQuestion.hiragana);
+
+            // **漢字交じりの文を大きく、ひらがなをその下に表示**
+            document.getElementById("wordDisplay").innerHTML = `<span style="font-size: 32px; font-weight: bold;">${currentQuestion.kanji}</span><br><span style="font-size: 24px;">${currentQuestion.hiragana}</span>`;
+
+            document.getElementById("romajiDisplay").innerHTML = currentAnswerList[0]
+                .split("")
+                .map(letter => `<span>${letter.toUpperCase()}</span>`)
+                .join("");
+
+            document.getElementById("result").textContent = "";
         }
-
-        // **通常のひらがなをローマ字に変換**
-        let sortedVariants = [...hiraToRoma[char]];
-        sortedVariants.sort((a, b) => a.length - b.length); // 短いものを優先
-
-        for (const prefix of romajiList) {
-            for (const variant of sortedVariants) {
-                newRomajiList.push(prefix + variant);
-            }
-        }
-        romajiList = newRomajiList;
-    }
-
-    console.log("変換結果: ", romajiList);
-    return romajiList;
-}
-
-
-// 問題をセットする関数を修正
-function setRandomQuestion() {
-    if (questionCount >= maxQuestions) {
-        document.getElementById("result").textContent = "ゲームクリア！";
-        return;
-    }
-
-    currentIndex = 0;
-    currentQuestion = questions[Math.floor(Math.random() * questions.length)];
-    questionCount++;
-
-    console.log("選ばれた問題:", currentQuestion); // デバッグ用
-
-        // **エラーの原因がここにある可能性が高い**
-    if (!currentQuestion.hiragana) {
-        console.error("エラー: hiragana の値が undefined です", currentQuestion);
-        return;
-    }
-
-    // **B列（ひらがな）のみをローマ字変換**
-    currentAnswerList = convertToRomaji(currentQuestion.hiragana);
-
-    // **漢字交じりの文を大きく、ひらがなをその下に表示**
-    document.getElementById("wordDisplay").innerHTML = `<span style="font-size: 32px; font-weight: bold;">${currentQuestion.kanji}</span><br><span style="font-size: 24px;">${currentQuestion.hiragana}</span>`;
-
-    document.getElementById("romajiDisplay").innerHTML = currentAnswerList[0]
-        .split("")
-        .map(letter => `<span>${letter.toUpperCase()}</span>`)
-        .join("");
-
-    document.getElementById("result").textContent = "";
-}
         
         // **スタート処理を関数化**
         function startGame() {
