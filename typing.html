@@ -26,6 +26,45 @@
             padding: 10px 20px;
             cursor: pointer;
         }
+        .keyboard {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            margin-top: 20px;
+        }
+
+        .row {
+            display: flex;
+            gap: 5px;
+        }
+
+        .key {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            border: 2px solid black;
+            border-radius: 5px;
+            background-color: white;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        /* ホームポジションを目立たせる */
+        .key.home {
+            background-color: #ffeb3b;
+        }
+
+        /* 次に押すキーをハイライト */
+        .key.active {
+            background-color: #ff5722;
+            transform: scale(1.1);
+        }
+
     </style>
 </head>
 <body>
@@ -36,7 +75,33 @@
     <p class="word" id="wordDisplay"></p>
     <p class="romaji" id="romajiDisplay"></p>
     <p id="result"></p>
-    <p id="questionCounter"></p>
+    <div class="keyboard">
+    <div class="row">
+        <div class="key" id="keyQ">Q</div>
+        <div class="key" id="keyW">W</div>
+        <div class="key" id="keyE">E</div>
+        <div class="key" id="keyR">R</div>
+        <div class="key" id="keyT">T</div>
+        <div class="key" id="keyY">Y</div>
+        <div class="key" id="keyU">U</div>
+        <div class="key" id="keyI">I</div>
+        <div class="key" id="keyO">O</div>
+        <div class="key" id="keyP">P</div>
+    </div>
+    <div class="row">
+        <div class="key" id="keyA">A</div>
+        <div class="key" id="keyS">S</div>
+        <div class="key home" id="keyD">D</div>
+        <div class="key home" id="keyF">F</div>
+        <div class="key" id="keyG">G</div>
+        <div class="key" id="keyH">H</div>
+        <div class="key home" id="keyJ">J</div>
+        <div class="key home" id="keyK">K</div>
+        <div class="key home" id="keyL">L</div>
+        <div class="key" id="keySemicolon">;</div>
+    </div>
+</div>
+
 
     <script>
         let questions = []; // 問題リスト
