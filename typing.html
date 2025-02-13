@@ -241,42 +241,49 @@
             }
         });
 
-document.addEventListener("keydown", function(event) {
-    if (!currentAnswerList || currentAnswerList.length === 0) return;
-    if (currentIndex >= currentAnswerList[0].length) return;
+        document.addEventListener("keydown", function(event) {
+            if (!currentAnswerList || currentAnswerList.length === 0) return; // 問題がセットされていないときは無視
+            if (currentIndex >= currentAnswerList[0].length) return; // すでにクリアしていたら無視
 
-    const key = event.key.toLowerCase();
-    let matched = false;
-    let newAnswer = null;
+            const key = event.key.toLowerCase();
+            let matched = false;
+            let newAnswer = null; // 更新するための新しいローマ字表記
 
-    // **すべての可能な正解をチェック**
-    for (let option of currentAnswerList) {
-        if (option.startsWith(currentAnswerList[0].substring(0, currentIndex) + key)) {
-            matched = true;
-            newAnswer = option;
-            break;
-        }
-    }
+            // **すべての可能な入力をチェック**
+            for (let option of currentAnswerList) {
+                if (option.startsWith(currentAnswerList[0].substring(0, currentIndex) + key)) {
+                    matched = true;
+                    newAnswer = option; // ユーザーの入力に合うパターンを選択
+                    break;
+                }
+            }
 
-    if (matched) {
-        currentAnswerList[0] = newAnswer;
+            if (matched) {
+                currentAnswerList[0] = newAnswer; // 新しいパターンに更新
 
-        let spans = document.getElementById("romajiDisplay").getElementsByTagName("span");
-        if (spans[currentIndex]) {
-            spans[currentIndex].classList.add("correct");
-        }
-        currentIndex++;
+                // **正しく入力された部分を色変更**
+                let spans = document.getElementById("romajiDisplay").getElementsByTagName("span");
+                if (spans[currentIndex]) {
+                    spans[currentIndex].classList.add("correct");
+                }
+                currentIndex++;
 
-        // **クリア判定を「すべての正解候補の中に現在の入力が完全一致するものがあるか」で行う**
-        let allMatched = currentAnswerList.some(answer => answer.substring(0, currentIndex) === answer);
-        if (allMatched) {
-            document.getElementById("result").textContent = "正解！";
-            setTimeout(() => {
-                setRandomQuestion();
-            }, 1000);
-        }
-    }
-});
+                // **表示を更新（ユーザーの入力に合わせたローマ字を反映）**
+                document.getElementById("romajiDisplay").innerHTML = currentAnswerList[0]
+                    .split("")
+                    .map((letter, index) => `<span class="${index < currentIndex ? 'correct' : ''}">${letter.toUpperCase()}</span>`)
+                    .join("");
+
+                // **すべての文字を入力したら「正解！」を表示**
+                let allMatched = currentAnswerList.some(answer => currentIndex === answer.length);
+                if (allMatched) {
+                    document.getElementById("result").textContent = "正解！";
+                    setTimeout(() => {
+                        setRandomQuestion(); // **次の問題へ**
+                    }, 1000);
+                }
+            }
+        });
 
     </script>
 </body>
