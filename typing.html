@@ -26,20 +26,23 @@
             padding: 10px 20px;
             cursor: pointer;
         }
-        .keyboard {
-            display: none;
+        /* キーボードの親コンテナ */
+        #keyboard {
+            display: none; /* 初期状態は非表示 */
             flex-direction: column;
             align-items: center;
             gap: 5px;
             margin-top: 20px;
         }
 
-        .row {
+        /* 各行（横並び） */
+        #keyboard .row {
             display: flex;
             gap: 5px;
         }
 
-        .key {
+        /* 各キーのデザイン */
+        #keyboard .key {
             width: 30px;
             height: 30px;
             display: flex;
@@ -54,13 +57,13 @@
             transition: background-color 0.2s, transform 0.1s;
         }
 
-        /* ホームポジションを目立たせる */
-        .key.home {
+        /* ホームポジションのキー */
+        #keyboard .key.home {
             background-color: #ffeb3b;
         }
 
-        /* 次に押すキーをハイライト */
-        .key.active {
+        /* 次に押すキーのハイライト */
+        #keyboard .key.active {
             background-color: #ff5722;
             transform: scale(1.1);
         }
@@ -288,14 +291,22 @@
         
         // **スタート処理を関数化**
         function startGame() {
+            let keyboard = document.getElementById("keyboard");
+    
+            if (keyboard) {
+                keyboard.style.display = "flex"; // **フレックスボックスを適用**
+            } else {
+                console.error("エラー: keyboard が見つかりません！");
+            }
+
             document.getElementById("startButton").style.display = "none";
             document.getElementById("wordDisplay").style.display = "block";
             document.getElementById("romajiDisplay").style.display = "block";
-            document.getElementById("keyboard").style.display = "block";
             document.getElementById("result").style.display = "block";
 
             setRandomQuestion();
         }
+
 
         // **クリックでスタート**
         document.getElementById("startButton").addEventListener("click", startGame);
