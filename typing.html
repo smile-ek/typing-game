@@ -57,9 +57,8 @@
             transition: background-color 0.2s, transform 0.1s;
         }
 
-        /* ホームポジションのキー */
         #keyboard .key.home {
-            background-color: #ffeb3b;
+            border: 2px solid red; /* 赤色の枠線 */
         }
 
         /* 次に押すキーのハイライト */
@@ -69,13 +68,13 @@
         }
 
         #keyboard .row:nth-child(2) { /* 2段目を半キー分ずらす */
-            margin-left: 20px;
-        }
-        #keyboard .row:nth-child(3) { /* 3段目を1/4キー分ずらす */
             margin-left: 25px;
         }
+        #keyboard .row:nth-child(3) { /* 3段目を1/4キー分ずらす */
+            margin-left: 35px;
+        }
         #keyboard .row:nth-child(4) { /* 4段目を半キー分ずらす */
-            margin-left: 40px;
+            margin-left: 60px;
         }
     </style>
 </head>
