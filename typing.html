@@ -27,7 +27,7 @@
             cursor: pointer;
         }
         .keyboard {
-            display: flex;
+            display: none;
             flex-direction: column;
             align-items: center;
             gap: 5px;
@@ -74,7 +74,6 @@
 
     <p class="word" id="wordDisplay"></p>
     <p class="romaji" id="romajiDisplay"></p>
-    <p id="result"></p>
     <div class="keyboard">
     <div class="row">
         <div class="key" id="keyQ">Q</div>
@@ -100,7 +99,8 @@
         <div class="key home" id="keyL">L</div>
         <div class="key" id="keySemicolon">;</div>
     </div>
-</div>
+    </div>
+    <p id="result"></p>
 
 
     <script>
@@ -291,6 +291,7 @@
             document.getElementById("startButton").style.display = "none";
             document.getElementById("wordDisplay").style.display = "block";
             document.getElementById("romajiDisplay").style.display = "block";
+            document.getElementById("keyboard").style.display = "block";
             document.getElementById("result").style.display = "block";
 
             setRandomQuestion();
