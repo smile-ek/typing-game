@@ -242,8 +242,6 @@
             }
         });
 
-let currentDisplayedRomaji = ""; // **現在表示しているローマ字を保持する変数**
-
 document.addEventListener("keydown", function(event) {
     if (!currentAnswerList || currentAnswerList.length === 0) return;
     if (currentIndex >= Math.max(...currentAnswerList.map(answer => answer.length))) return;
