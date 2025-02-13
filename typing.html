@@ -76,6 +76,17 @@
         #keyboard .row:nth-child(4) { /* 4段目を半キー分ずらす */
             margin-left: 60px;
         }
+        .finger {
+            fill: lightgray; /* 指のデフォルト色 */
+            stroke: black;
+            stroke-width: 2;
+            transition: fill 0.2s;
+        }
+
+        .finger.active {
+            fill: orange; /* タイピング時にアクティブな指をオレンジに */
+        }
+
     </style>
 </head>
 <body>
@@ -138,6 +149,21 @@
         <div class="key" id="keysla2">\</div>
     </div>
     </div>
+    <svg id="hands" viewBox="0 0 200 100" width="200" height="100">
+        <!-- 左手 -->
+        <circle class="finger left" id="leftLittle" cx="20" cy="50" r="10" />
+        <circle class="finger left" id="leftRing" cx="40" cy="50" r="10" />
+        <circle class="finger left" id="leftMiddle" cx="60" cy="50" r="10" />
+        <circle class="finger left" id="leftIndex" cx="80" cy="50" r="10" />
+        <circle class="finger left home" id="leftThumb" cx="100" cy="80" r="10" />
+
+        <!-- 右手 -->
+        <circle class="finger right" id="rightLittle" cx="180" cy="50" r="10" />
+        <circle class="finger right" id="rightRing" cx="160" cy="50" r="10" />
+        <circle class="finger right" id="rightMiddle" cx="140" cy="50" r="10" />
+        <circle class="finger right" id="rightIndex" cx="120" cy="50" r="10" />
+        <circle class="finger right home" id="rightThumb" cx="100" cy="80" r="10" />
+    </svg>
     <p id="result"></p>
 
 
