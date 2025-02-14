@@ -459,51 +459,47 @@
         // **クリックでスタート**
         document.getElementById("startButton").addEventListener("click", startGame);
 
-document.addEventListener("keydown", function(event) {
-    if (!currentAnswerList || currentAnswerList.length === 0) return;
-    if (currentIndex >= Math.max(...currentAnswerList.map(answer => answer.length))) return;
+        document.addEventListener("keydown", function(event) {
+            if (!currentAnswerList || currentAnswerList.length === 0) return;
+            if (currentIndex >= Math.max(...currentAnswerList.map(answer => answer.length))) return;
 
-    const key = event.key.toLowerCase();
-    let newAnswerList = [];
+            const key = event.key.toLowerCase();
+            let newAnswerList = [];
 
-    // **現在の入力に適したバリエーションを抽出**
-    for (let option of currentAnswerList) {
-        if (option.startsWith(option.substring(0, currentIndex) + key)) {
-            newAnswerList.push(option);
-        }
-    }
+            // **現在の入力に適したバリエーションを抽出**
+            for (let option of currentAnswerList) {
+                if (option.startsWith(option.substring(0, currentIndex) + key)) {
+                    newAnswerList.push(option);
+                }
+            }
 
-    if (newAnswerList.length > 0) {
-        currentAnswerList = newAnswerList; // **入力に適したものだけを残す**
-        currentDisplayedRomaji = newAnswerList[0]; // **現在の表示ローマ字を更新**
+            if (newAnswerList.length > 0) {
+                currentAnswerList = newAnswerList; // **入力に適したものだけを残す**
+                currentDisplayedRomaji = newAnswerList[0]; // **現在の表示ローマ字を更新**
         
-        let spans = document.getElementById("romajiDisplay").getElementsByTagName("span");
+                let spans = document.getElementById("romajiDisplay").getElementsByTagName("span");
 
-        if (spans[currentIndex]) {
-            spans[currentIndex].classList.add("correct");
-        }
+                if (spans[currentIndex]) {
+                    spans[currentIndex].classList.add("correct");
+                }
 
-        currentIndex++;
+                currentIndex++;
 
-        highlightNextKey(); // 次に入力するキーをハイライト
+                highlightNextKey(); // 次に入力するキーをハイライト
 
-        // **表示を更新（ユーザーの入力に合わせたローマ字を反映）**
-        document.getElementById("romajiDisplay").innerHTML = currentDisplayedRomaji
-            .split("")
-            .map((letter, index) => `<span class="${index < currentIndex ? 'correct' : ''}">${letter.toUpperCase()}</span>`)
-            .join("");
+                // **表示を更新（ユーザーの入力に合わせたローマ字を反映）**
+                document.getElementById("romajiDisplay").innerHTML = currentDisplayedRomaji
+                    .split("")
+                    .map((letter, index) => `<span class="${index < currentIndex ? 'correct' : ''}">${letter.toUpperCase()}</span>`)
+                    .join("");
 
-        // **クリア判定：「現在の表示ローマ字の最後の文字が入力されたか？」**
-        if (currentIndex === currentDisplayedRomaji.length) {
-            document.getElementById("result").textContent = "正解！";
-            setTimeout(() => {
-                setRandomQuestion();
-                currentDisplayedRomaji = ""; // **次の問題のためにリセット**
-            }, 1000);
-        }
-    }
-});
-
+                // **クリア判定：「現在の表示ローマ字の最後の文字が入力されたか？」**
+                if (currentIndex === currentDisplayedRomaji.length) {
+                    setRandomQuestion();
+                    currentDisplayedRomaji = ""; // **次の問題のためにリセット**
+                }
+            }
+        });
 
     </script>
 </body>
