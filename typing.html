@@ -505,6 +505,7 @@ document.addEventListener("keydown", function(event) {
         correctKeysPressed++; // **正しく入力したキー数を増やす**
         currentAnswerList = newAnswerList; // **入力に適したものだけを残す**
         currentDisplayedRomaji = newAnswerList[0]; // **現在の表示ローマ字を更新**
+        console.log("正解したキー数:", correctKeysPressed); // **デバッグ用**
         
         let spans = document.getElementById("romajiDisplay").getElementsByTagName("span");
 
@@ -526,7 +527,6 @@ document.addEventListener("keydown", function(event) {
         if (currentIndex === currentDisplayedRomaji.length) {
             setRandomQuestion();
             currentDisplayedRomaji = ""; // **次の問題のためにリセット**
-            console.log("ミスしたキー数:", correctKeysPressed); // **デバッグ用**
         }
     } else {
         // **マッチしなかった場合、ミスカウントを増やす**
