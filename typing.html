@@ -346,16 +346,20 @@
             return romajiList;
         }
 
-                function highlightNextKey() {
-    // まず、前のキーのハイライトを解除
-    const previousKey = document.querySelector(".key.active");
-    if (previousKey) {
-        previousKey.classList.remove("active");
-    }
+        function highlightNextKey() {
+            console.log("ハイライトするキー:", currentDisplayedRomaji, "現在のインデックス:", currentIndex); // **デバッグ用**
+            // まず、前のキーのハイライトを解除
+            const previousKey = document.querySelector(".key.active");
+            if (previousKey) {
+                previousKey.classList.remove("active");
+            }
 
     // 次に押すべきキーを取得
     const nextKey = currentDisplayedRomaji[currentIndex];
-    if (!nextKey) return; // 次の文字がなければ何もしない
+    if (!nextKey) {
+        console.warn("次のキーが取得できませんでした:", currentDisplayedRomaji, currentIndex); // **デバッグ**
+        return;
+    }
 
     // 対応するキーの要素を取得し、ハイライト
     const keyElement = document.getElementById(`key${nextKey.toUpperCase()}`);
