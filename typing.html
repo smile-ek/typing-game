@@ -384,6 +384,9 @@ function highlightFinger(key) {
 
     // 押されたキーに対応する指をハイライト
     const fingerElement = document.getElementById(`finger-${fingerId}`);
+    console.log("取得された fingerId:", fingerId);
+    console.log("検索する要素ID:", `finger-${fingerId}`);
+
     if (fingerElement) {
         fingerElement.classList.add("active");
     }
