@@ -241,6 +241,20 @@
             "ゃ": ["ya", "lya", "xya"], "ゅ": ["yu", "lyu", "xyu"], "ょ": ["yo", "lyo", "xyo"]
         };
 
+        const keyToFinger = {
+    "1": "L5", "2": "L5", "Q": "L5", "A": "L5", "Z": "L5",
+    "3": "L4", "W": "L4", "S": "L4", "X": "L4",
+    "4": "L3", "E": "L3", "D": "L3", "C": "L3",
+    "5": "L2", "R": "L2", "F": "L2", "V": "L2", "T": "L2", "G": "L2", "B": "L2",
+    " ": "L1", // スペースバー
+
+    "6": "R2", "Y": "R2", "H": "R2", "N": "R2", "7": "R2", "U": "R2", "J": "R2", "M": "R2",
+    "8": "R3", "I": "R3", "K": "R3", ",": "R3",
+    "9": "R4", "O": "R4", "L": "R4", ".": "R4",
+    "0": "R5", "P": "R5", ";": "R5", "/": "R5", "-": "R5", "@": "R5"
+};
+
+
         // JSONファイルを読み込む
         async function loadQuestions() {
             const response = await fetch("questions.json");
@@ -332,6 +346,23 @@
             return romajiList;
         }
 
+                function highlightNextKey() {
+    // まず、前のキーのハイライトを解除
+    const previousKey = document.querySelector(".key.active");
+    if (previousKey) {
+        previousKey.classList.remove("active");
+    }
+
+    // 次に押すべきキーを取得
+    const nextKey = currentDisplayedRomaji[currentIndex];
+    if (!nextKey) return; // 次の文字がなければ何もしない
+
+    // 対応するキーの要素を取得し、ハイライト
+    const keyElement = document.getElementById(`key${nextKey.toUpperCase()}`);
+    if (keyElement) {
+        keyElement.classList.add("active");
+    }
+}
 
         // 問題をセットする関数
         function setRandomQuestion() {
@@ -401,23 +432,7 @@
             }
         });
 
-        function highlightNextKey() {
-    // まず、前のキーのハイライトを解除
-    const previousKey = document.querySelector(".key.active");
-    if (previousKey) {
-        previousKey.classList.remove("active");
-    }
 
-    // 次に押すべきキーを取得
-    const nextKey = currentDisplayedRomaji[currentIndex];
-    if (!nextKey) return; // 次の文字がなければ何もしない
-
-    // 対応するキーの要素を取得し、ハイライト
-    const keyElement = document.getElementById(`key${nextKey.toUpperCase()}`);
-    if (keyElement) {
-        keyElement.classList.add("active");
-    }
-}
 
 document.addEventListener("keydown", function(event) {
     if (!currentAnswerList || currentAnswerList.length === 0) return;
