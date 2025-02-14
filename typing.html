@@ -366,6 +366,7 @@
     if (keyElement) {
         keyElement.classList.add("active");
     }
+    highlightFinger(nextkey); // 指をハイライト
 }
 
 function highlightFinger(key) {
@@ -382,7 +383,6 @@ function highlightFinger(key) {
     if (fingerElement) {
         fingerElement.setAttribute("fill", "orange");
     }
-    highlightFinger(nextkey); // 指をハイライト
 }
         
         // 問題をセットする関数
