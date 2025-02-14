@@ -104,7 +104,7 @@
 <body>
     
     <button id="startButton">スタート</button>
-
+    <p id="startMessage" style="display: none; font-size: 18px;">エンターキーまたはスペースキーで開始</p>
     <p class="word" id="wordDisplay"></p>
     <p class="romaji" id="romajiDisplay"></p>
     <div id="keyboard" class="keyboard">
@@ -446,7 +446,7 @@
                 console.error("エラー: keyboard が見つかりません！");
             }
 
-            document.getElementById("startButton").style.display = "none";
+            document.getElementById("startMessage").style.display = "none";
             document.getElementById("wordDisplay").style.display = "block";
             document.getElementById("romajiDisplay").style.display = "block";
             document.getElementById("handsContainer").style.display = "block";
@@ -457,7 +457,21 @@
 
 
         // **クリックでスタート**
-        document.getElementById("startButton").addEventListener("click", startGame);
+        document.getElementById("startButton").addEventListener("click", function() {
+            document.getElementById("startButton").style.display = "none";
+            document.getElementById("startMessage").style.display = "block"; // メッセージを表示
+
+            // **エンター or スペースで開始**
+            document.addEventListener("keydown", startOnKeyPress);
+        });
+
+        function startOnKeyPress(event) {
+            if (event.key === "Enter" || event.key === " ") { // スペースキーは " " (半角スペース)
+                document.getElementById("startMessage").style.display = "none"; // メッセージを非表示
+                document.removeEventListener("keydown", startOnKeyPress); // イベントを解除
+                startGame(); // ゲーム開始
+            }
+        }
 
         document.addEventListener("keydown", function(event) {
             if (!currentAnswerList || currentAnswerList.length === 0) return;
