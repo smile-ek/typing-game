@@ -416,28 +416,6 @@
     }
 }
 
-// キー入力時に次のキーをハイライトするように変更
-document.addEventListener("keydown", function(event) {
-    if (!currentAnswerList || currentAnswerList.length === 0) return;
-    if (currentIndex >= currentDisplayedRomaji.length) return;
-
-    const key = event.key.toLowerCase();
-    let matched = false;
-
-    for (let option of currentAnswerList) {
-        if (option.startsWith(currentDisplayedRomaji.substring(0, currentIndex) + key)) {
-            matched = true;
-            currentDisplayedRomaji = option;
-            break;
-        }
-    }
-
-    if (matched) {
-        currentIndex++;
-        highlightNextKey(); // 次のキーをハイライト
-    }
-});
-
 document.addEventListener("keydown", function(event) {
     if (!currentAnswerList || currentAnswerList.length === 0) return;
     if (currentIndex >= Math.max(...currentAnswerList.map(answer => answer.length))) return;
