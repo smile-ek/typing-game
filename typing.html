@@ -392,6 +392,13 @@
             // **B列（ひらがな）のみをローマ字変換**
             currentAnswerList = convertToRomaji(currentQuestion.hiragana);
 
+            if (currentAnswerList.length > 0) {
+                currentDisplayedRomaji = currentAnswerList[0];
+            } else {
+                console.error("エラー: ローマ字変換結果が空です", currentQuestion.hiragana);
+                return;
+            }
+
             // **漢字交じりの文を大きく、ひらがなをその下に表示**
             document.getElementById("wordDisplay").innerHTML = `<span style="font-size: 32px; font-weight: bold;">${currentQuestion.kanji}</span><br><span style="font-size: 24px;">${currentQuestion.hiragana}</span>`;
 
@@ -422,7 +429,6 @@
             document.getElementById("result").style.display = "block";
 
             setRandomQuestion();
-            highlightNextKey();
         }
 
 
