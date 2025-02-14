@@ -426,7 +426,7 @@ function highlightFinger(key) {
             document.getElementById("result").textContent = "";
 
             highlightNextKey(); 
-            highlightFinger(key); // 指をハイライト
+            highlightFinger(nextkey); // 指をハイライト
         }
         
         // **スタート処理を関数化**
@@ -488,7 +488,7 @@ document.addEventListener("keydown", function(event) {
         currentIndex++;
 
         highlightNextKey(); // 次に入力するキーをハイライト
-        highlightFinger(key); // 指をハイライト
+        highlightFinger(nextkey); // 指をハイライト
 
         // **表示を更新（ユーザーの入力に合わせたローマ字を反映）**
         document.getElementById("romajiDisplay").innerHTML = currentDisplayedRomaji
