@@ -526,6 +526,7 @@ document.addEventListener("keydown", function(event) {
         if (currentIndex === currentDisplayedRomaji.length) {
             setRandomQuestion();
             currentDisplayedRomaji = ""; // **次の問題のためにリセット**
+            console.log("ミスしたキー数:", correctKeysPressed); // **デバッグ用**
         }
     } else {
         // **マッチしなかった場合、ミスカウントを増やす**
