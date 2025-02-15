@@ -296,10 +296,10 @@ function calculateScore() {
     console.log("キースピード:", keySpeed);
 
     // **ミスタイプの影響を調整**
-    let adjustedMistake = mistakeCount * 10;  // ミスの影響を増やす
+    let adjustedMistake = mistakeCount * 5;  // ミスの影響を増やす
 
     // **キースピードの影響を調整**
-    let adjustedSpeed = Math.pow(keySpeed / 10, 1.2) * 150; // **より影響を強める**
+    let adjustedSpeed = Math.pow(keySpeed / 10, 1.2) * 100; // **より影響を強める**
 
     // **スコアの計算**
     let rawScore = Math.round(accuracy + adjustedSpeed - adjustedMistake);
