@@ -278,6 +278,7 @@
 function calculateScore() {
 
     endTime = Date.now();
+    console.log("ミステイクカウント:", mistakeCount);
     
     // **経過時間 (秒) を計算**
     let elapsedTime = (endTime - startTime) / 1000; // **ミリ秒 → 秒 に変換**
