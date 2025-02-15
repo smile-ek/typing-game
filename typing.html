@@ -296,7 +296,7 @@ function calculateScore() {
     console.log("キースピードの計算:", keySpeed, "型:", typeof keySpeed);
 
     // **スコアを計算**
-    let score = Math.round((accuracy * 10) + keySpeed - (mistakeCount * 5));
+    let score = Math.round((accuracy * 10) + (keySpeed / 2) - (mistakeCount * 5));
     console.log("スコアの計算:", score); // **デバッグ用**
     score = Math.max(0, score); // **スコアがマイナスにならないよう補正**
 
