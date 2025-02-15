@@ -26,6 +26,14 @@
             padding: 10px 20px;
             cursor: pointer;
         }
+        #romajiDisplay {
+            font-size: 18px; /* 文字サイズを適度に調整 */
+            word-break: break-word; /* 単語の途中でも改行 */
+            white-space: normal; /* テキストが折り返されるように */
+            max-width: 100%; /* 親要素の幅を超えないように */
+            display: block;
+        }
+
         /* キーボードの親コンテナ */
         #keyboard {
             display: none; /* 初期状態は非表示 */
