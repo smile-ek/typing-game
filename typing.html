@@ -141,14 +141,14 @@
 </head>
 <body>
     
-    <div id="gradeSelection">
-        <button onclick="setGrade(1)">1年生</button>
-        <button onclick="setGrade(2)">2年生</button>
-        <button onclick="setGrade(3)">3年生</button>
-        <button onclick="setGrade(4)">4年生</button>
-        <button onclick="setGrade(5)">5年生</button>
-        <button onclick="setGrade(6)">6年生</button>
-        </div>
+    <div id="gradeButtons">
+        <button class="gradeButton" data-grade="1">1年生</button>
+        <button class="gradeButton" data-grade="2">2年生</button>
+        <button class="gradeButton" data-grade="3">3年生</button>
+        <button class="gradeButton" data-grade="4">4年生</button>
+        <button class="gradeButton" data-grade="5">5年生</button>
+        <button class="gradeButton" data-grade="6">6年生</button>
+    </div>
     <p id="startMessage" style="display: none; font-size: 18px; margin-top: 30px;">エンターキーまたはスペースキーではじめる</p>
     <div id="wordContainer">
         <div id="kanjiDisplay"></div>
@@ -572,14 +572,16 @@ function calculateScore() {
             setRandomQuestion();
         }
 
+        // **学年選択ボタンの処理**
+        document.querySelectorAll(".gradeButton").forEach(button => {
+            button.addEventListener("click", function() {
+                selectedGrade = this.getAttribute("data-grade"); // 選択された学年を取得
+                document.getElementById("gradeButtons").style.display = "none"; // ボタンを非表示
+                document.getElementById("startMessage").style.display = "block"; // 「スペース or エンターキーで開始」の表示
 
-        // **クリックでスタート**
-        document.getElementById("startButton").addEventListener("click", function() {
-            document.getElementById("startButton").style.display = "none";
-            document.getElementById("startMessage").style.display = "block"; // メッセージを表示
-
-            // **エンター or スペースで開始**
-            document.addEventListener("keydown", startOnKeyPress);
+                // **エンター or スペースで開始**
+                document.addEventListener("keydown", startOnKeyPress);
+            });
         });
 
         function startOnKeyPress(event) {
