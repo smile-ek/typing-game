@@ -268,7 +268,7 @@
 
         // JSONファイルを読み込む
         async function loadQuestions() {
-            const response = await fetch("questions.json");
+            const response = await fetch("questions_6.json");
             questions = await response.json();
             remainingQuestions = [...questions];
             console.log("JSONデータの読み込み完了:", questions); // **デバッグ用**後で消す
