@@ -33,13 +33,18 @@
             max-width: 100%; /* 親要素の幅を超えないように */
             display: block;
         }
-
-        #wordDisplay {
-            min-height: 60px; /* 必要な高さを確保（調整可） */
-            text-align: center; /* 文章を中央揃え */
+        #wordContainer {
+            height: 80px; /* ここで高さを固定 */
             display: flex;
-            flex-direction: column;
-            justify-content: center; /* 上下の中央揃え */
+            align-items: center; /* 上下の中央揃え */
+            justify-content: center;
+            text-align: center;
+        }
+        #wordDisplay {
+            font-size: 25px;
+            font-weight: bold;
+            text-align: center;
+            white-space: pre-wrap; /* 自動改行を許可 */
         }
         /* キーボードの親コンテナ */
         #keyboard {
@@ -120,7 +125,9 @@
     
     <button id="startButton">スタート</button>
     <p id="startMessage" style="display: none; font-size: 18px; margin-top: 30px;">エンターキーまたはスペースキーではじめる</p>
-    <p class="word" id="wordDisplay"></p>
+    <div id="wordContainer">
+        <p class="word" id="wordDisplay"></p>
+    </div>
     <p class="romaji" id="romajiDisplay"></p>
     <div id="keyboard" class="keyboard">
     <div class="row">
