@@ -276,6 +276,9 @@
         };
 
 function calculateScore() {
+
+    endTime = Date.now();
+    
     // **経過時間 (秒) を計算**
     let elapsedTime = (endTime - startTime) / 1000; // **ミリ秒 → 秒 に変換**
     console.log("秒に変換された数値:", elapsedTime); // **デバッグ用**
@@ -428,7 +431,6 @@ function calculateScore() {
         // 問題をセットする関数
         function setRandomQuestion() {
             if (questionCount >= maxQuestions || remainingQuestions.length === 0) {
-                endTime = performance.now(); // **ゲーム終了時刻を記録**
                 document.getElementById("result").textContent = "ゲームクリア！";
 
                 // **2秒後にスコアを表示**
