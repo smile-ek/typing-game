@@ -27,7 +27,7 @@
             cursor: pointer;
         }
         #romajiDisplay {
-            height: 120px; /* ここで高さを固定 */
+            height: 100px; /* ここで高さを固定 */
             font-size: 18px; /* 文字サイズを適度に調整 */
             word-break: break-word; /* 単語の途中でも改行 */
             white-space: normal; /* テキストが折り返されるように */
@@ -44,6 +44,21 @@
         #wordDisplay {
             text-align: center;
             white-space: pre-wrap; /* 自動改行を許可 */
+        }
+        #kanjiDisplay {
+            font-size: 25px;
+            font-weight: bold;
+            color: black;
+            height: 80px; /* 漢字エリアの高さ固定 */
+            display: flex;
+            align-items: center;
+        }
+        #hiraganaDisplay {
+            font-size: 20px;
+            color: black;
+            height: 40px; /* ひらがなエリアの高さ固定 */
+            display: flex;
+            align-items: center;
         }
         /* キーボードの親コンテナ */
         #keyboard {
@@ -125,7 +140,8 @@
     <button id="startButton">スタート</button>
     <p id="startMessage" style="display: none; font-size: 18px; margin-top: 30px;">エンターキーまたはスペースキーではじめる</p>
     <div id="wordContainer">
-        <p class="word" id="wordDisplay"></p>
+        <div id="kanjiDisplay"></div>
+        <div id="hiraganaDisplay"></div>
     </div>
     <p class="romaji" id="romajiDisplay"></p>
     <div id="keyboard" class="keyboard">
@@ -505,7 +521,8 @@ function calculateScore() {
             }
 
             // **漢字交じりの文を大きく、ひらがなをその下に表示**
-            document.getElementById("wordDisplay").innerHTML = `<span style="font-size: 25px; font-weight: bold;">${currentQuestion.kanji}</span><br><span style="font-size: 20px;">${currentQuestion.hiragana}</span>`;
+            document.getElementById("kanjiDisplay").innerHTML = `<span>${currentQuestion.kanji}</span>`;
+            document.getElementById("hiraganaDisplay").innerHTML = `<span>${currentQuestion.hiragana}</span>`;
 
             document.getElementById("romajiDisplay").innerHTML = currentAnswerList[0]
                 .split("")
