@@ -278,18 +278,22 @@
 function calculateScore() {
     // **経過時間 (秒) を計算**
     let elapsedTime = (endTime - startTime) / 1000; // **ミリ秒 → 秒 に変換**
+    console.log("秒に変換された数値:", elapsedTime); // **デバッグ用**
     if (elapsedTime <= 0) elapsedTime = 1; // **0秒にならないように補正**
 
     // **正確性を計算**
     let accuracy = (correctKeysPressed / totalKeysPressed) * 100;
+    console.log("正確性の計算:", accuracy); // **デバッグ用**
     accuracy = isNaN(accuracy) ? 0 : accuracy.toFixed(2); // **NaN回避＆小数点2桁に**
 
     // **キースピードを計算 (1分あたりのキータイプ数)**
     let keySpeed = (correctKeysPressed / elapsedTime) * 60; // **1秒あたり → 1分あたりに変換**
+    console.log("キースピードの計算:", keySpeed); // **デバッグ用**
     keySpeed = isNaN(keySpeed) ? 0 : keySpeed.toFixed(2); // **NaN回避＆小数点2桁に**
 
     // **スコアを計算**
     let score = Math.round((accuracy * 10) + keySpeed - (mistakeCount * 5));
+    console.log("スコアの計算:", score); // **デバッグ用**
     score = Math.max(0, score); // **スコアがマイナスにならないよう補正**
 
     // **スコアを表示**
