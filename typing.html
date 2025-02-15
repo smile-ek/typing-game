@@ -275,33 +275,30 @@
             await loadQuestions();
         };
 
-        function calculateScore() {
-            // ゲーム時間（秒単位）を計算
-            let playTime = (endTime - startTime) / 1000; // ミリ秒 → 秒に変換
+function calculateScore() {
+    // **経過時間 (秒) を計算**
+    let elapsedTime = (endTime - startTime) / 1000; // **ミリ秒 → 秒 に変換**
+    if (elapsedTime <= 0) elapsedTime = 1; // **0秒にならないように補正**
 
-            // キースピード（1分間あたりのキータイプ数）
-            let keySpeed = (totalKeysPressed / playTime) * 60;
+    // **正確性を計算**
+    let accuracy = (correctKeysPressed / totalKeysPressed) * 100;
+    accuracy = isNaN(accuracy) ? 0 : accuracy.toFixed(2); // **NaN回避＆小数点2桁に**
 
-            // 正確性（%）
-            let accuracy = (correctKeysPressed / totalKeysPressed) * 100;
+    // **キースピードを計算 (1分あたりのキータイプ数)**
+    let keySpeed = (correctKeysPressed / elapsedTime) * 60; // **1秒あたり → 1分あたりに変換**
+    keySpeed = isNaN(keySpeed) ? 0 : keySpeed.toFixed(2); // **NaN回避＆小数点2桁に**
 
-            // スコア計算
-            let score = ((accuracy / 100) * keySpeed) * 5; // スケーリング調整済み
+    // **スコアを計算**
+    let score = Math.round((accuracy * 10) + keySpeed - (mistakeCount * 5));
+    score = Math.max(0, score); // **スコアがマイナスにならないよう補正**
 
-            // **スコアを整数に丸める**
-            score = Math.round(score);
-
-            // **スコアを表示**
-            document.getElementById("result").innerHTML = `
-            <p>🎯 正確性: ${accuracy.toFixed(2)}% </p>
-            <p>⚡ キースピード: ${keySpeed.toFixed(2)} 回/分</p>
-            <p>🏆 スコア: <strong>${score}</strong></p>
-            `;
-
-            console.log("ゲーム終了 - スコア:", score);
-        }
-
-
+    // **スコアを表示**
+    document.getElementById("result").innerHTML = `
+        🎯 正確性: ${accuracy}% <br>
+        ⚡ キースピード: ${keySpeed} 回/分 <br>
+        🏆 スコア: ${score}
+    `;
+}
         // ひらがなをローマ字に変換
         function convertToRomaji(hiragana) {
             console.log("変換開始: ", hiragana);
