@@ -283,27 +283,35 @@ function calculateScore() {
     // **経過時間 (秒) を計算**
     let elapsedTime = (endTime - startTime) / 1000;
     elapsedTime = Math.max(1, elapsedTime); // **負の値や0を防ぐ**
-    console.log("秒に変換された数値:", elapsedTime);
-    
+    console.log("経過秒数:", elapsedTime);
+
     // **正確性を計算**
     let accuracy = (correctKeysPressed / totalKeysPressed) * 100;
-    accuracy = isNaN(accuracy) ? 0 : parseFloat(accuracy.toFixed(2)); // **数値に変換**
-    console.log("正確性の計算:", accuracy, "型:", typeof accuracy);
+    accuracy = isNaN(accuracy) ? 0 : parseFloat(accuracy.toFixed(2));
+    console.log("正確性:", accuracy);
 
     // **キースピードを計算 (1分あたりのキータイプ数)**
     let keySpeed = (correctKeysPressed / elapsedTime) * 60;
-    keySpeed = isNaN(keySpeed) ? 0 : parseFloat(keySpeed.toFixed(2)); // **数値に変換**
-    let adjustedSpeed = keySpeed * 1.2;  // 速度の影響を直接大きく
-    console.log("キースピードの計算:", keySpeed, "型:", typeof keySpeed);
+    keySpeed = isNaN(keySpeed) ? 0 : parseFloat(keySpeed.toFixed(2));
+    console.log("キースピード:", keySpeed);
 
-    let adjustedMistake = mistakeCount * 10;
+    // **ミスタイプの影響を調整**
+    let adjustedMistake = mistakeCount * 15;  // ミスの影響を増やす
 
-    // **スコアを計算**
-    let rawScore = Math.round((accuracy * 5) * 6 + adjustedSpeed - adjustedMistake);
+    // **キースピードの影響を調整**
+    let adjustedSpeed = Math.log10(keySpeed + 1) * 180; // log10 で増減の影響を調整
 
-    // **スコアを 1/10 にして整数に切り捨て**
-    let score = Math.round(rawScore / 2.5);  
-    score = Math.max(0, score); // **スコアがマイナスにならないよう補正**
+    // **スコアの計算**
+    let rawScore = Math.round((accuracy * 4) + adjustedSpeed - adjustedMistake);
+
+    // **スコアの補正**
+    let score = Math.max(0, rawScore);
+    
+    // **デバッグ用ログ**
+    console.log("ミステイクの影響:", adjustedMistake);
+    console.log("キースピードの影響:", adjustedSpeed);
+    console.log("生スコア:", rawScore);
+    console.log("最終スコア:", score);
 
     // **スコアを表示**
     document.getElementById("result").innerHTML = `
@@ -312,6 +320,7 @@ function calculateScore() {
         🏆 スコア: ${score}
     `;
 }
+
         // ひらがなをローマ字に変換
         function convertToRomaji(hiragana) {
             console.log("変換開始: ", hiragana);
