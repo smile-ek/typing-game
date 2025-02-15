@@ -11,7 +11,7 @@
             background-color: #f8f9fa;
         }
         .word, .romaji, #result, #questionCounter {
-            font-size: 25px;
+            font-size: 20px;
             margin: 10px 0;
             display: none;
         }
@@ -446,7 +446,7 @@ function calculateScore() {
         // 問題をセットする関数
         function setRandomQuestion() {
             if (questionCount >= maxQuestions || remainingQuestions.length === 0) {
-                document.getElementById("result").textContent = "ゲームクリア！";
+                document.getElementById("result").textContent = "終了！";
 
                 // **2秒後にスコアを表示**
                 setTimeout(() => {
