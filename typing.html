@@ -27,7 +27,7 @@
             cursor: pointer;
         }
         #romajiDisplay {
-            height: 75px; /* ここで高さを固定 */
+            height: 70px; /* ここで高さを固定 */
             font-size: 18px; /* 文字サイズを適度に調整 */
             word-break: break-word; /* 単語の途中でも改行 */
             white-space: normal; /* テキストが折り返されるように */
@@ -120,7 +120,7 @@
             width: 350px; /* キーボードの幅に合わせて小さくする */
             height: 60px; /* 不要な余白を削減 */
             margin-top: -0;
-            margin-left: 140px;
+            margin-left: 135px;
         }
 
 
@@ -141,7 +141,14 @@
 </head>
 <body>
     
-    <button id="startButton">スタート</button>
+    <div id="gradeSelection">
+        <button onclick="setGrade(1)">1年生</button>
+        <button onclick="setGrade(2)">2年生</button>
+        <button onclick="setGrade(3)">3年生</button>
+        <button onclick="setGrade(4)">4年生</button>
+        <button onclick="setGrade(5)">5年生</button>
+        <button onclick="setGrade(6)">6年生</button>
+        </div>
     <p id="startMessage" style="display: none; font-size: 18px; margin-top: 30px;">エンターキーまたはスペースキーではじめる</p>
     <div id="wordContainer">
         <div id="kanjiDisplay"></div>
@@ -242,6 +249,7 @@
         let mistakeCount = 0;  // ミスしたキーの数
         let startTime = 0;  // ゲーム開始時間（UNIXタイムスタンプ）
         let endTime = 0;  // ゲーム終了時間
+        let selectedGrade = 1; // デフォルトで1年生に設定
         
         // ひらがな → ローマ字変換表
         // 基本の「ひらがな → ローマ字」マッピング
@@ -306,20 +314,21 @@
             "0": "R5", "P": "R5", ";": "R5", "/": "R5", "-": "R5", "@": "R5"
         };
 
-
-        // JSONファイルを読み込む
-        async function loadQuestions() {
-            const response = await fetch("questions_6.json");
-            questions = await response.json();
-            remainingQuestions = [...questions];
-            console.log("JSONデータの読み込み完了:", questions); // **デバッグ用**後で消す
+        function setGrade(grade) {
+            selectedGrade = grade; // 選択された学年を格納
+            loadQuestions(); // JSONをロード
         }
 
-        // ページ読み込み時に JSON を取得
-        window.onload = async function() {
-            await loadQuestions();
-        };
-
+        async function loadQuestions() {
+            const fileName = `questions_${selectedGrade}.json`; // 学年に応じたファイル名
+            try {
+                const response = await fetch(fileName);
+                questions = await response.json();
+                console.log(`JSONデータの読み込み完了 (${fileName}):`, questions);
+            } catch (error) {
+                console.error("JSONの読み込みに失敗しました:", error);
+            }
+        }
 function calculateScore() {
 
     endTime = Date.now();
@@ -548,7 +557,7 @@ function calculateScore() {
                 console.error("エラー: keyboard が見つかりません！");
             }
 
-            document.getElementById("startMessage").style.display = "none";
+            document.getElementById("gradeSelection").style.display = "none"; // ボタンを非表示
             document.getElementById("wordContainer").style.display = "block";
             document.getElementById("romajiDisplay").style.display = "block";
             document.getElementById("handsContainer").style.display = "block";
