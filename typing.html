@@ -51,14 +51,20 @@
             color: black;
             height: 100px; /* 漢字エリアの高さ固定 */
             display: flex;
-            align-items: center;
+            align-items: flex-start; /* 縦方向を上寄せ */
+            justify-content: center; /* 横方向の中央寄せ */
+            text-align: center; /* テキストの中央寄せ */
+            padding-top: 5px; /* 必要に応じて余白を調整 */
         }
         #hiraganaDisplay {
             font-size: 20px;
             color: black;
             height: 50px; /* ひらがなエリアの高さ固定 */
             display: flex;
-            align-items: center;
+            align-items: flex-start; /* 縦方向を上寄せ */
+            justify-content: center; /* 横方向の中央寄せ */
+            text-align: center; /* テキストの中央寄せ */
+            padding-top: 5px; /* 必要に応じて余白を調整 */
         }
         /* キーボードの親コンテナ */
         #keyboard {
