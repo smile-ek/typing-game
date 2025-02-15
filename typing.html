@@ -305,7 +305,7 @@ function calculateScore() {
     let rawScore = Math.round((accuracy * 4) + adjustedSpeed - adjustedMistake);
 
     // **スコアの補正**
-    let score = Math.max(0, Math.round(rawScore / 2)); 
+    let score = Math.max(0, Math.round(rawScore / 4)); 
     
     // **デバッグ用ログ**
     console.log("ミステイクの影響:", adjustedMistake);
