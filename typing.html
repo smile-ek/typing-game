@@ -297,8 +297,10 @@ function calculateScore() {
     console.log("キースピードの計算:", keySpeed, "型:", typeof keySpeed);
 
     // **スコアを計算**
-    let score = Math.round((accuracy * 5) * 8 + adjustedSpeed - (mistakeCount * 10));
-    console.log("スコアの計算:", score); // **デバッグ用**
+    let rawScore = Math.round((accuracy * 5) * 8 + adjustedSpeed - (mistakeCount * 10));
+
+    // **スコアを 1/10 にして整数に切り捨て**
+    let score = Math.floor(rawScore / 10);
     score = Math.max(0, score); // **スコアがマイナスにならないよう補正**
 
     // **スコアを表示**
