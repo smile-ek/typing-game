@@ -299,13 +299,13 @@ function calculateScore() {
     let adjustedMistake = mistakeCount * 15;  // ミスの影響を増やす
 
     // **キースピードの影響を調整**
-    let adjustedSpeed = Math.log10(keySpeed + 1) * 180; // log10 で増減の影響を調整
+    let adjustedSpeed = Math.log10(keySpeed + 1) * 250; // log10 で増減の影響を調整
 
     // **スコアの計算**
     let rawScore = Math.round((accuracy * 4) + adjustedSpeed - adjustedMistake);
 
     // **スコアの補正**
-    let score = Math.max(0, rawScore);
+    let score = Math.max(0, Math.round(rawScore / 2)); 
     
     // **デバッグ用ログ**
     console.log("ミステイクの影響:", adjustedMistake);
