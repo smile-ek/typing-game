@@ -548,7 +548,11 @@ function calculateScore() {
         }
         
         // **スタート処理を関数化**
-        function startGame() {
+        async function startGame() {
+            // **JSONの読み込みが完了するまで待つ**
+            if (!questions || questions.length === 0) {
+                await loadQuestions();
+            }
             let keyboard = document.getElementById("keyboard");
     
             if (keyboard) {
@@ -567,6 +571,8 @@ function calculateScore() {
             correctKeysPressed = 0;
             mistakeCount = 0;
             startTime = Date.now(); // **ゲーム開始時間を記録**
+
+            remainingQuestions = [...questions];
 
             setRandomQuestion();
         }
