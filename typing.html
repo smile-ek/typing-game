@@ -293,10 +293,10 @@ function calculateScore() {
     // **キースピードを計算 (1分あたりのキータイプ数)**
     let keySpeed = (correctKeysPressed / elapsedTime) * 60;
     keySpeed = isNaN(keySpeed) ? 0 : parseFloat(keySpeed.toFixed(2)); // **数値に変換**
-    let adjustedSpeed = keySpeed * 0.7;  // 速度の影響を直接大きく
+    let adjustedSpeed = keySpeed * 1.2;  // 速度の影響を直接大きく
     console.log("キースピードの計算:", keySpeed, "型:", typeof keySpeed);
 
-    let adjustedMistake = mistakeCount * 7;
+    let adjustedMistake = mistakeCount * 10;
 
     // **スコアを計算**
     let rawScore = Math.round((accuracy * 5) * 6 + adjustedSpeed - adjustedMistake);
