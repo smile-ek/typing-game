@@ -289,6 +289,7 @@ function calculateScore() {
     let accuracy = (correctKeysPressed / totalKeysPressed) * 100;
     console.log("正確性の計算:", accuracy); // **デバッグ用**
     accuracy = isNaN(accuracy) ? 0 : accuracy.toFixed(2); // **NaN回避＆小数点2桁に**
+    console.log(typeof accuracy);
 
     // **キースピードを計算 (1分あたりのキータイプ数)**
     let keySpeed = (correctKeysPressed / elapsedTime) * 60; // **1秒あたり → 1分あたりに変換**
