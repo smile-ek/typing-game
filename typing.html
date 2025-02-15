@@ -302,7 +302,7 @@ function calculateScore() {
     let rawScore = Math.round((accuracy * 5) * 6 + adjustedSpeed - adjustedMistake);
 
     // **スコアを 1/10 にして整数に切り捨て**
-    let score = Math.floor(Math.sqrt(rawScore) * 4.5);
+    let score = Math.round(rawScore / 2.5);  
     score = Math.max(0, score); // **スコアがマイナスにならないよう補正**
 
     // **スコアを表示**
