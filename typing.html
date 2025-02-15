@@ -132,7 +132,7 @@
         <div class="key" id="keyI">I</div>
         <div class="key" id="keyO">O</div>
         <div class="key" id="keyP">P</div>
-        <div class="key" id="keyat">@</div>
+        <div class="key" id="key@">@</div>
     </div>
     <div class="row">
         <div class="key home" id="keyA">A</div>
@@ -155,10 +155,10 @@
         <div class="key" id="keyB">B</div>
         <div class="key" id="keyN">N</div>
         <div class="key" id="keyM">M</div>
-        <div class="key" id="keyten">,</div>
-        <div class="key" id="keyten2">.</div>
-        <div class="key" id="keysla">/</div>
-        <div class="key" id="keysla2">\</div>
+        <div class="key" id="key,">,</div>
+        <div class="key" id="key.">.</div>
+        <div class="key" id="key/">/</div>
+        <div class="key" id="key\">\</div>
     </div>
     </div>
 <div id="handsContainer">
@@ -300,7 +300,7 @@ function calculateScore() {
     console.log("キースピード:", keySpeed);
 
     // **ミスタイプの影響を調整**
-    let adjustedMistake = mistakeCount * 5;  // ミスの影響を増やす
+    let adjustedMistake = mistakeCount * 8;  // ミスの影響を増やす
 
     // **キースピードの影響を調整**
     let adjustedSpeed = Math.pow(keySpeed / 10, 1.2) * 100; // **より影響を強める**
