@@ -21,22 +21,34 @@
         .correct {
             color: green;
         }
+        #gradeButtons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2列に設定 */
+            gap: 10px; /* ボタン間のスペース */
+            justify-content: center; /* 中央寄せ */
+            max-width: 300px; /* ボタンの幅を制限（調整可能） */
+            margin: auto; /* 中央配置 */
+        }
         #gradeButtons button {
-            padding: 10px 20px;
-            font-size: 16px;
+            width: 140px; /* 幅を統一 */
+            height: 50px; /* 高さを統一 */
+            font-size: 18px;
+            text-align: center;
             border: 2px solid #007bff;
             background-color: #ffffff;
             color: #007bff;
             border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease-in-out; /* スムーズな変化 */
+            transition: all 0.3s ease-in-out;
         }
 
-        #gradeButtons button:hover {
-            background-color: #007bff; /* 背景色を青に変更 */
-            color: white; /* 文字色を白に変更 */
-            border-color: #0056b3; /* ボーダー色を少し濃く */
-        }
+/* ホバー時のスタイル */
+#gradeButtons button:hover {
+    background-color: #007bff;
+    color: white;
+    border-color: #0056b3;
+}
+
         #romajiDisplay {
             height: 70px; /* ここで高さを固定 */
             font-size: 18px; /* 文字サイズを適度に調整 */
