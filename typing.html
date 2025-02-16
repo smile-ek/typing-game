@@ -181,6 +181,28 @@
             left: 0px; /* 画面の左端から10px */
             z-index: 999; /* 他の要素より前面に */
         }
+        #resetButton {
+            display: none; /* 最初は非表示 */
+            width: 100px;  /* ボタンの横幅 */
+            height: 30px;  /* ボタンの縦幅 */
+            background-color: #696969; /* 背景色（濃いグレー） */
+            color: white; /* 文字色 */
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 40px; /* テキストを中央配置 */
+            border-radius: 10px; /* 角を丸く */
+            position: fixed;
+            bottom: 10px; /* フレームの下端からの距離 */
+            right: 5px; /* フレームの右端からの距離 */
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #resetButton:hover {
+            background-color: #505050; /* ホバー時の色変更 */
+        }
+
 
     </style>
 </head>
@@ -279,6 +301,7 @@
 
 </div>
     <div id="gradeDisplay"></div>
+    <div id="resetButton">さいしょにもどる</div>
     <p id="result"></p>
 
 
@@ -611,6 +634,7 @@ function calculateScore() {
             // 選択した学年を表示
             document.getElementById("gradeDisplay").style.display = "flex";
             document.getElementById("gradeDisplay").textContent = selectedGrade + "年生";
+            document.getElementById("resetButton").style.display = "block"; // ボタンを表示
 
             document.getElementById("wordContainer").style.display = "flex";
             document.getElementById("romajiDisplay").style.display = "block";
@@ -632,9 +656,9 @@ function calculateScore() {
         document.querySelectorAll(".gradeButton").forEach(button => {
             button.addEventListener("click", function() {
                 selectedGrade = this.getAttribute("data-grade"); // 選択された学年を取得
-                document.getElementById("topimage").style.display = "none"; // ボタンを非表示
+                document.getElementById("topimage").style.display = "none";
                 document.getElementById("gradeButtons").style.display = "none"; // ボタンを非表示
-                document.getElementById("select").style.display = "none"; // ボタンを非表示
+                document.getElementById("select").style.display = "none";
                 document.getElementById("startimage").style.display = "block";
                 document.getElementById("startMessage").style.display = "block"; // 「スペース or エンターキーで開始」の表示
 
@@ -651,6 +675,30 @@ function calculateScore() {
                 startGame(); // ゲーム開始
             }
         }
+
+        // **「さいしょにもどる」ボタンのクリックイベント**
+        document.getElementById("resetButton").addEventListener("click", function() {
+            // ボタンを非表示
+            document.getElementById("resetButton").style.display = "none";
+
+            // 学年選択ボタンを再表示
+            document.getElementById("gradeButtons").style.display = "flex";
+            document.getElementById("topimage").style.display = "block";
+            document.getElementById("select").style.display = "block";
+    
+            // 「エンターキーまたはスペースキーで開始」メッセージを非表示
+            document.getElementById("startMessage").style.display = "none";
+
+            // 他の要素を非表示にする
+            document.getElementById("gradeDisplay").style.display = "none";
+            document.getElementById("wordContainer").style.display = "none";
+            document.getElementById("romajiDisplay").style.display = "none";
+            document.getElementById("handsContainer").style.display = "none";
+            document.getElementById("result").style.display = "none";
+
+            // 選択した学年をリセット
+            selectedGrade = null;
+        });
 
 document.addEventListener("keydown", function(event) {
     if (!currentAnswerList || currentAnswerList.length === 0) return;
