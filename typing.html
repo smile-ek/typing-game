@@ -164,9 +164,9 @@
             margin-top: 50px;
         }
         #gradeDisplay {
-            width: 500px; /* 固定幅 */
-            background-color: #ddd; /* 薄いグレー */
-            color: #333; /* 濃いめのグレーで視認性を向上 */
+            width: 550px; /* 固定幅 */
+            background-color: #bbb; /* 薄いグレー */
+            color: #fff; /* 濃いめのグレーで視認性を向上 */
             text-align: center;
             font-size: 18px;
             font-weight: bold;
@@ -176,7 +176,6 @@
             top: 10px;
             left: 50%;
             transform: translateX(-50%); /* 中央配置 */
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* 立体感を追加 */
         }
 
     </style>
@@ -604,6 +603,9 @@ function calculateScore() {
             } else {
                 console.error("エラー: keyboard が見つかりません！");
             }
+
+            // 選択した学年を画面上部に表示
+            document.getElementById("gradeDisplay").textContent = selectedGrade + "年生";
 
             document.getElementById("wordContainer").style.display = "block";
             document.getElementById("romajiDisplay").style.display = "block";
