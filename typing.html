@@ -157,12 +157,16 @@
         .finger.active {
             fill: #ff5722; /* タイピング中の指をオレンジにする */
         }
-
-
-
+        #topimage {
+            width: 100%; /* 画面いっぱいに表示 */
+            max-width: 600px; /* 最大幅を600pxに */
+            display: block;
+            margin: auto; /* 中央揃え */
+        }
     </style>
 </head>
 <body>
+    <img id="topimage" src="top.png" alt="トップ画像">
     <p id="select">どのがくねんにちょうせんする？</p>
     <div id="gradeButtons">
         <button class="gradeButton" data-grade="1">１ねんせい</button>
@@ -604,6 +608,7 @@ function calculateScore() {
         document.querySelectorAll(".gradeButton").forEach(button => {
             button.addEventListener("click", function() {
                 selectedGrade = this.getAttribute("data-grade"); // 選択された学年を取得
+                document.getElementById("topimage").style.display = "none"; // ボタンを非表示
                 document.getElementById("gradeButtons").style.display = "none"; // ボタンを非表示
                 document.getElementById("select").style.display = "none"; // ボタンを非表示
                 document.getElementById("startMessage").style.display = "block"; // 「スペース or エンターキーで開始」の表示
