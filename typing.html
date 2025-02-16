@@ -183,12 +183,12 @@
         }
         #resetButton {
             display: none; /* 最初は非表示 */
-            width: 100px;  /* ボタンの横幅 */
+            width: 120px;  /* ボタンの横幅 */
             height: 30px;  /* ボタンの縦幅 */
             background-color: #696969; /* 背景色（濃いグレー） */
             color: white; /* 文字色 */
             text-align: center;
-            font-size: 16px;
+            font-size: 12px;
             font-weight: bold;
             line-height: 40px; /* テキストを中央配置 */
             border-radius: 10px; /* 角を丸く */
@@ -196,6 +196,8 @@
             bottom: 10px; /* フレームの下端からの距離 */
             right: 5px; /* フレームの右端からの距離 */
             cursor: pointer;
+            align-items: center;
+            justify-content: center;
             transition: background-color 0.3s;
         }
 
@@ -634,7 +636,7 @@ function calculateScore() {
             // 選択した学年を表示
             document.getElementById("gradeDisplay").style.display = "flex";
             document.getElementById("gradeDisplay").textContent = selectedGrade + "年生";
-            document.getElementById("resetButton").style.display = "block"; // ボタンを表示
+            document.getElementById("resetButton").style.display = "flex"; // ボタンを表示
 
             document.getElementById("wordContainer").style.display = "flex";
             document.getElementById("romajiDisplay").style.display = "block";
