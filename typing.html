@@ -21,10 +21,21 @@
         .correct {
             color: green;
         }
-        #startButton {
-            font-size: 24px;
+        #gradeButtons button {
             padding: 10px 20px;
+            font-size: 16px;
+            border: 2px solid #007bff;
+            background-color: #ffffff;
+            color: #007bff;
+            border-radius: 5px;
             cursor: pointer;
+            transition: all 0.3s ease-in-out; /* スムーズな変化 */
+        }
+
+        #gradeButtons button:hover {
+            background-color: #007bff; /* 背景色を青に変更 */
+            color: white; /* 文字色を白に変更 */
+            border-color: #0056b3; /* ボーダー色を少し濃く */
         }
         #romajiDisplay {
             height: 70px; /* ここで高さを固定 */
@@ -142,8 +153,9 @@
 <body>
     
     <div id="gradeButtons">
-        <button class="gradeButton" data-grade="1">1年生</button>
-        <button class="gradeButton" data-grade="2">2年生</button>
+        <p>もんだいのむずかしさをえらんでね</p>
+        <button class="gradeButton" data-grade="1">1ねんせい</button>
+        <button class="gradeButton" data-grade="2">2ねんせい</button>
         <button class="gradeButton" data-grade="3">3年生</button>
         <button class="gradeButton" data-grade="4">4年生</button>
         <button class="gradeButton" data-grade="5">5年生</button>
