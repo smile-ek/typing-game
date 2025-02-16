@@ -701,6 +701,15 @@ function calculateScore() {
 
             // 選択した学年をリセット
             selectedGrade = null;
+            selectedGrade = null;  // 選択された学年をリセット
+            questions = [];  // 問題リストをリセット
+            remainingQuestions = []; // 残りの問題リストをリセット
+            questionCount = 0; // **問題カウントをリセット**
+            currentIndex = 0; // **入力のインデックスをリセット**
+            currentAnswerList = []; // **ローマ字変換リストをリセット**
+            currentDisplayedRomaji = ""; // **現在のローマ字表示をリセット**
+            startTime = null; // **開始時間をリセット**
+            endTime = null; // **終了時間をリセット**
         });
 
 document.addEventListener("keydown", function(event) {
