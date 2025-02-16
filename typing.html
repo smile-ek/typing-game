@@ -163,9 +163,8 @@
     </style>
 </head>
 <body>
-    
+    <p id="select">もんだいのむずかしさをえらんでね</p>
     <div id="gradeButtons">
-        <p>もんだいのむずかしさをえらんでね</p>
         <button class="gradeButton" data-grade="1">1ねんせい</button>
         <button class="gradeButton" data-grade="2">2ねんせい</button>
         <button class="gradeButton" data-grade="3">3年生</button>
@@ -606,6 +605,7 @@ function calculateScore() {
             button.addEventListener("click", function() {
                 selectedGrade = this.getAttribute("data-grade"); // 選択された学年を取得
                 document.getElementById("gradeButtons").style.display = "none"; // ボタンを非表示
+                document.getElementById("select").style.display = "none"; // ボタンを非表示
                 document.getElementById("startMessage").style.display = "block"; // 「スペース or エンターキーで開始」の表示
 
                 // **エンター or スペースで開始**
