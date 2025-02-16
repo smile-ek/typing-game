@@ -163,6 +163,7 @@
             margin: auto; /* 中央揃え */
         }
         #gradeDisplay {
+            display: none;
             width: 100px; /* 固定幅 */
             height: 30px;
             background-color: #696969;
@@ -172,7 +173,7 @@
             font-weight: bold;
             padding: 0px 0;
             position: fixed;
-            bottom: 5px; /* 一番下に配置 */
+            bottom: 10px; /* 一番下に配置 */
             left: 0px; /* 画面の左端から10px */
             z-index: 999; /* 他の要素より前面に */
         }
@@ -603,6 +604,7 @@ function calculateScore() {
             }
 
             // 選択した学年を画面上部に表示
+            document.getElementById("gradeDisplay").style.display = "block";
             document.getElementById("gradeDisplay").textContent = selectedGrade + "年生";
 
             document.getElementById("wordContainer").style.display = "block";
