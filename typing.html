@@ -60,7 +60,7 @@
         #wordContainer {
             background-color: #ffffff;
             height: 140px; /* ここで高さを固定 */
-            display: flex;
+            display: none;
             align-items: center; /* 上下の中央揃え */
             justify-content: center;
             text-align: center;
@@ -615,7 +615,7 @@ function calculateScore() {
             document.getElementById("gradeDisplay").style.display = "flex";
             document.getElementById("gradeDisplay").textContent = selectedGrade + "年生";
 
-            document.getElementById("wordContainer").style.display = "block";
+            document.getElementById("wordContainer").style.display = "flex";
             document.getElementById("romajiDisplay").style.display = "block";
             document.getElementById("handsContainer").style.display = "block";
             document.getElementById("result").style.display = "block";
