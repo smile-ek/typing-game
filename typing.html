@@ -632,7 +632,7 @@ function calculateScore() {
             }
 
             // 選択した学年を表示
-            document.getElementById("gradeDisplay").style.display = "grid";
+            document.getElementById("gradeDisplay").style.display = "flex";
             document.getElementById("gradeDisplay").textContent = selectedGrade + "年生";
             document.getElementById("resetButton").style.display = "block"; // ボタンを表示
 
@@ -682,7 +682,7 @@ function calculateScore() {
             document.getElementById("resetButton").style.display = "none";
 
             // 学年選択ボタンを再表示
-            document.getElementById("gradeButtons").style.display = "flex";
+            document.getElementById("gradeButtons").style.display = "grid";
             document.getElementById("topimage").style.display = "block";
             document.getElementById("select").style.display = "block";
     
