@@ -582,12 +582,13 @@ function calculateScore() {
                 }, 2000); // **2秒 (2000ミリ秒) 待つ**
                 return;
             }
-                // **前の単語が「n」で終わっていたかを記録**
-                if (currentDisplayedRomaji && currentDisplayedRomaji.endsWith("n")) {
-                    previousWordEndedWithN = 1;
-                } else {
-                    previousWordEndedWithN = 0;
-                }
+            // **前の単語が「n」で終わっていたかを記録**
+            if (currentDisplayedRomaji && currentDisplayedRomaji.endsWith("n")) {
+                previousWordEndedWithN = 1;
+            } else {
+                previousWordEndedWithN = 0;
+            }
+            console.log("nかどうかの判定:", previousWordEndedWithN); // **デバッグ用**
 
             currentIndex = 0;
             let randomIndex = Math.floor(Math.random() * remainingQuestions.length);
