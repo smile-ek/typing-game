@@ -67,12 +67,23 @@
             text-align: center;
         }
         #scoreDisplay {
-            font-size: 25px;
+            font-size: 30px;
             background-color: #ffffff;
             height: 145px; /* ここで高さを固定 */
             display: none;
             justify-content: center;
             text-align: center;
+            align-items: center;
+            border: 3px solid black; /* 黒の枠線 (3px) */
+        }
+        #seisekiDisplay {
+            font-size: 30px;
+            background-color: #ffffff;
+            height: 500px; /* ここで高さを固定 */
+            display: none;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
             border: 3px solid black; /* 黒の枠線 (3px) */
         }
         #kanjiDisplay {
@@ -236,6 +247,15 @@
     </div>
     <div id="scoreDisplay">
         <p>終了！</p>
+    </div>
+    <div id="seisekiDisplay">
+        <p>せいせきはっぴょう</p>
+        // **スコアを表示**
+        document.getElementById("result").innerHTML = `
+            🎯 正確性: ${accuracy}% <br>
+            ⚡ キースピード: ${keySpeed} 回/分 <br>
+            🏆 スコア: ${score}
+        `;
     </div>
     <p class="romaji" id="romajiDisplay"></p>
     <div id="keyboard" class="keyboard">
@@ -453,12 +473,6 @@ function calculateScore() {
     console.log("生スコア:", rawScore);
     console.log("最終スコア:", score);
 
-    // **スコアを表示**
-    document.getElementById("result").innerHTML = `
-        🎯 正確性: ${accuracy}% <br>
-        ⚡ キースピード: ${keySpeed} 回/分 <br>
-        🏆 スコア: ${score}
-    `;
 }
 
         // ひらがなをローマ字に変換
@@ -586,12 +600,17 @@ function calculateScore() {
         function showScoreScreen() {
             // **ワードエリアを非表示**
             document.getElementById("wordContainer").style.display = "none";
-            document.getElementById("romajiDisplay").style.display = "none";
-            document.getElementById("keyboard").style.display = "none";
-            document.getElementById("handsContainer").style.display = "none";
 
             // **スコアエリアを表示**
             document.getElementById("scoreDisplay").style.display = "flex";
+
+            // **3秒後にスコアエリアを非表示 & 成績エリアを表示**
+            setTimeout(() => {
+                document.getElementById("scoreDisplay").style.display = "none"; // スコアエリアを非表示
+                document.getElementById("romajiDisplay").style.display = "none";
+                document.getElementById("handsContainer").style.display = "none";
+                document.getElementById("seisekiDisplay").style.display = "flex"; // 成績エリアを表示
+            }, 3000); // **3秒 (3000ミリ秒) 待つ**
         }
 
         
