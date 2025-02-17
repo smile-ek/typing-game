@@ -598,7 +598,7 @@ function calculateScore() {
         // 問題をセットする関数
         function setRandomQuestion() {
             if (questionCount >= maxQuestions || remainingQuestions.length === 0) {
-                dcalculateScore();  // **スコアを計算**
+                calculateScore();  // **スコアを計算**
                 showScoreScreen(); // **スコア画面を即座に表示**
                 return;
             }
