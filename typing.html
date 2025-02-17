@@ -66,6 +66,15 @@
             justify-content: center;
             text-align: center;
         }
+        #scoreDisplay {
+            font-size: 25px;
+            background-color: #ffffff;
+            height: 145px; /* ここで高さを固定 */
+            display: none;
+            justify-content: center;
+            text-align: center;
+            border: 3px solid black; /* 黒の枠線 (3px) */
+        }
         #kanjiDisplay {
             font-size: 25px;
             font-weight: bold;
@@ -224,6 +233,9 @@
     <div id="wordContainer">
         <div id="kanjiDisplay"></div>
         <div id="hiraganaDisplay"></div>
+    </div>
+    <div id="scoreDisplay">
+        <p>終了！</p>
     </div>
     <p class="romaji" id="romajiDisplay"></p>
     <div id="keyboard" class="keyboard">
@@ -570,16 +582,24 @@ function calculateScore() {
                 fingerElement.classList.add("active");
             }
         }
+
+        function showScoreScreen() {
+            // **ワードエリアを非表示**
+            document.getElementById("wordContainer").style.display = "none";
+            document.getElementById("romajiDisplay").style.display = "none";
+            document.getElementById("keyboard").style.display = "none";
+            document.getElementById("handsContainer").style.display = "none";
+
+            // **スコアエリアを表示**
+            document.getElementById("scoreDisplay").style.display = "flex";
+        }
+
         
         // 問題をセットする関数
         function setRandomQuestion() {
             if (questionCount >= maxQuestions || remainingQuestions.length === 0) {
-                document.getElementById("result").textContent = "終了！";
-
-                // **2秒後にスコアを表示**
-                setTimeout(() => {
-                    calculateScore(); // スコアを計算＆表示
-                }, 2000); // **2秒 (2000ミリ秒) 待つ**
+                dcalculateScore();  // **スコアを計算**
+                showScoreScreen(); // **スコア画面を即座に表示**
                 return;
             }
             // **前の単語が「n」で終わっていたかを記録**
