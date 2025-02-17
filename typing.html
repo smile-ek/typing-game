@@ -322,6 +322,7 @@
         let startTime = 0;  // ゲーム開始時間（UNIXタイムスタンプ）
         let endTime = 0;  // ゲーム終了時間
         let selectedGrade = 1; // デフォルトで1年生に設定
+        let previousWordEndedWithN = 0; // 0: 「n」で終わっていない, 1: 「n」で終わっている
         
         // ひらがな → ローマ字変換表
         // 基本の「ひらがな → ローマ字」マッピング
@@ -581,6 +582,12 @@ function calculateScore() {
                 }, 2000); // **2秒 (2000ミリ秒) 待つ**
                 return;
             }
+                // **前の単語が「n」で終わっていたかを記録**
+                if (currentDisplayedRomaji && currentDisplayedRomaji.endsWith("n")) {
+                    previousWordEndedWithN = 1;
+                } else {
+                    previousWordEndedWithN = 0;
+                }
 
             currentIndex = 0;
             let randomIndex = Math.floor(Math.random() * remainingQuestions.length);
@@ -713,56 +720,64 @@ function calculateScore() {
             endTime = null; // **終了時間をリセット**
         });
 
-document.addEventListener("keydown", function(event) {
-    if (!currentAnswerList || currentAnswerList.length === 0) return;
-    if (currentIndex >= Math.max(...currentAnswerList.map(answer => answer.length))) return;
+        document.addEventListener("keydown", function(event) {
+            if (!currentAnswerList || currentAnswerList.length === 0) return;
+            if (currentIndex >= Math.max(...currentAnswerList.map(answer => answer.length))) return;
 
-    const key = event.key.toLowerCase();
-    totalKeysPressed++; // **押されたキー総数を増やす**
-    let newAnswerList = [];
-    let matched = false; // **キーがマッチしたかを確認**
+            const key = event.key.toLowerCase();
+            totalKeysPressed++; // **押されたキー総数を増やす**
+            let newAnswerList = [];
+            let matched = false; // **キーがマッチしたかを確認**
 
-    // **現在の入力に適したバリエーションを抽出**
-    for (let option of currentAnswerList) {
-        if (option.startsWith(option.substring(0, currentIndex) + key)) {
-            newAnswerList.push(option);
-            matched = true; // **マッチした場合は true にする**
-        }
-    }
+            // **「n」で終わる単語の後に「n」を打った場合の特別処理**
+            if (previousWordEndedWithN === 1 && currentIndex === 0 && key === "n") {
+                console.log("前の単語が「n」で終わったため、ミスカウントせずスキップ");
+                previousWordEndedWithN = 0; // **処理を一度だけ実行するためにリセット**
+                return; // **「n」は無視して次のキー入力を待つ**
+            }
 
-    if (matched) {
-        correctKeysPressed++; // **正しく入力したキー数を増やす**
-        currentAnswerList = newAnswerList; // **入力に適したものだけを残す**
-        currentDisplayedRomaji = newAnswerList[0]; // **現在の表示ローマ字を更新**
-        console.log("正解したキー数:", correctKeysPressed); // **デバッグ用**
+
+            // **現在の入力に適したバリエーションを抽出**
+            for (let option of currentAnswerList) {
+                if (option.startsWith(option.substring(0, currentIndex) + key)) {
+                    newAnswerList.push(option);
+                    matched = true; // **マッチした場合は true にする**
+                }
+            }
+
+            if (matched) {
+                correctKeysPressed++; // **正しく入力したキー数を増やす**
+                currentAnswerList = newAnswerList; // **入力に適したものだけを残す**
+                currentDisplayedRomaji = newAnswerList[0]; // **現在の表示ローマ字を更新**
+                console.log("正解したキー数:", correctKeysPressed); // **デバッグ用**
         
-        let spans = document.getElementById("romajiDisplay").getElementsByTagName("span");
+                let spans = document.getElementById("romajiDisplay").getElementsByTagName("span");
 
-        if (spans[currentIndex]) {
-            spans[currentIndex].classList.add("correct");
-        }
+                if (spans[currentIndex]) {
+                    spans[currentIndex].classList.add("correct");
+                }
 
-        currentIndex++;
+                currentIndex++;
 
-        highlightNextKey(); // 次に入力するキーをハイライト
+                highlightNextKey(); // 次に入力するキーをハイライト
 
-        // **表示を更新（ユーザーの入力に合わせたローマ字を反映）**
-        document.getElementById("romajiDisplay").innerHTML = currentDisplayedRomaji
-            .split("")
-            .map((letter, index) => `<span class="${index < currentIndex ? 'correct' : ''}">${letter.toUpperCase()}</span>`)
-            .join("");
+                // **表示を更新（ユーザーの入力に合わせたローマ字を反映）**
+                document.getElementById("romajiDisplay").innerHTML = currentDisplayedRomaji
+                    .split("")
+                    .map((letter, index) => `<span class="${index < currentIndex ? 'correct' : ''}">${letter.toUpperCase()}</span>`)
+                    .join("");
 
-        // **クリア判定：「現在の表示ローマ字の最後の文字が入力されたか？」**
-        if (currentIndex === currentDisplayedRomaji.length) {
-            setRandomQuestion();
-            currentDisplayedRomaji = ""; // **次の問題のためにリセット**
-        }
-    } else {
-        // **マッチしなかった場合、ミスカウントを増やす**
-        mistakeCount++;
-        console.log("ミスしたキー数:", mistakeCount); // **デバッグ用**
-    }
-});
+                // **クリア判定：「現在の表示ローマ字の最後の文字が入力されたか？」**
+                if (currentIndex === currentDisplayedRomaji.length) {
+                    setRandomQuestion();
+                    currentDisplayedRomaji = ""; // **次の問題のためにリセット**
+                }
+            } else {
+                // **マッチしなかった場合、ミスカウントを増やす**
+                mistakeCount++;
+                console.log("ミスしたキー数:", mistakeCount); // **デバッグ用**
+            }
+        });
 
     </script>
 </body>
