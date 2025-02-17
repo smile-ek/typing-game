@@ -77,9 +77,9 @@
             border: 3px solid black; /* 黒の枠線 (3px) */
         }
         #seisekiDisplay {
-            font-size: 30px;
+            font-size: 18px;
             background-color: #ffffff;
-            height: 500px; /* ここで高さを固定 */
+            height: 300px; /* ここで高さを固定 */
             display: none;
             justify-content: center;
             text-align: center;
@@ -250,12 +250,7 @@
     </div>
     <div id="seisekiDisplay">
         <p>せいせきはっぴょう</p>
-        // **スコアを表示**
-        document.getElementById("result").innerHTML = `
-            🎯 正確性: ${accuracy}% <br>
-            ⚡ キースピード: ${keySpeed} 回/分 <br>
-            🏆 スコア: ${score}
-        `;
+        <p id="seisekiContent"></p>
     </div>
     <p class="romaji" id="romajiDisplay"></p>
     <div id="keyboard" class="keyboard">
@@ -597,6 +592,19 @@ function calculateScore() {
             }
         }
 
+        function showSeisekiScreen(accuracy, keySpeed, score) {
+        // **スコア情報を挿入**
+        document.getElementById("seisekiContent").innerHTML = `
+            🎯 正確性: ${accuracy}% <br>
+            ⚡ キースピード: ${keySpeed} 回/分 <br>
+            🏆 スコア: ${score}
+        `;
+
+        // **成績エリアを表示**
+        document.getElementById("seisekiDisplay").style.display = "flex";
+        }
+
+
         function showScoreScreen() {
             // **ワードエリアを非表示**
             document.getElementById("wordContainer").style.display = "none";
@@ -609,7 +617,7 @@ function calculateScore() {
                 document.getElementById("scoreDisplay").style.display = "none"; // スコアエリアを非表示
                 document.getElementById("romajiDisplay").style.display = "none";
                 document.getElementById("handsContainer").style.display = "none";
-                document.getElementById("seisekiDisplay").style.display = "flex"; // 成績エリアを表示
+                showSeisekiScreen(accuracy, keySpeed, score); // **成績エリアを表示**
             }, 3000); // **3秒 (3000ミリ秒) 待つ**
         }
 
