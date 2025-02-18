@@ -80,7 +80,7 @@
         #seisekiDisplay {
             font-size: 18px;
             background-color: #ffffff;
-            height: 300px; /* ここで高さを固定 */
+            height: 350px; /* ここで高さを固定 */
             display: none;
             justify-content: center;
             text-align: center;
@@ -272,6 +272,7 @@
     <div id="seisekiDisplay">
         <p class="seisekiTitle">せいせきはっぴょう</p>
         <p id="seisekiContent"></p>
+        <div id="nankyu"></div>
     </div>
     <p class="romaji" id="romajiDisplay"></p>
     <div id="keyboard" class="keyboard">
@@ -483,6 +484,22 @@ function calculateScore() {
     // **スコアの補正**
     let score = Math.max(0, Math.round(rawScore / 6));
 
+    // **取得級を格納する変数**
+    let rank;
+
+    // **スコアに応じた級数を判定**
+    if (score >= 600) {
+        rank = 1;
+    } else if (score >= 400) {
+        rank = 2;
+    } else if (score >= 200) {
+        rank = 3;
+    } else if (score >= 100) {
+        rank = 4;
+    } else {
+        rank = 5;
+    }
+
     showSeisekiScreen(accuracy, keySpeed, score); // **成績エリアを表示**
     
     // **デバッグ用ログ**
@@ -490,6 +507,7 @@ function calculateScore() {
     console.log("キースピードの影響:", adjustedSpeed);
     console.log("生スコア:", rawScore);
     console.log("最終スコア:", score);
+    console.log("取得級:", rank);
 
 }
 
