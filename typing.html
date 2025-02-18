@@ -491,7 +491,7 @@ function calculateScore() {
     console.log("キースピード:", keySpeed);
 
     // **ミスタイプの影響を調整**
-    let adjustedMistake = mistakeCount * 105;  // ミスの影響を増やす
+    let adjustedMistake = mistakeCount * 95;  // ミスの影響を増やす
 
     // **キースピードの影響を補正**
     let adjustedSpeed = Math.pow(keySpeed, 0.9) * 20;  // 速度の影響を調整
@@ -678,7 +678,7 @@ function calculateScore() {
             <table class="scoreTable">
                 <tr><td>🎯 せいかくさ</td><td class="alignRight">${accuracy}%</td><td>まちがえないでうてたかな？</td></tr>
                 <tr><td>⚡ スピード</td><td class="alignRight">${keySpeed} 回/分</td><td>はやくうてたかな？</td></tr>
-                <tr><td>🏆 てんすう</td><td class="alignRight">${score}</td><td>あなたのせいせき</td></tr>
+                <tr><td>🏆 てんすう</td><td class="alignRight">${score}点</td><td>あなたのせいせき</td></tr>
             </table>
         `;
         // **級数に応じた画像をセット**
