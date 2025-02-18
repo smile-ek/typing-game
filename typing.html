@@ -89,7 +89,7 @@
             flex-direction: column;
         }
         #seisekiContent {
-            width: 400px;   /* 幅を300pxに指定 */
+            width: 500px;   /* 幅を300pxに指定 */
             margin: 0 auto; /* 中央配置 */
             text-align: left; /* 左寄せ */
         }
@@ -107,6 +107,22 @@
             margin-bottom: 10px; /* 下に余白を追加 */
             text-align: center; /* 中央揃え（お好みで） */
         }
+        .rankTable {
+            margin: 0 auto; /* テーブル全体を中央寄せ */
+            border-collapse: collapse;
+        }
+
+        .rankCell {
+            padding: 10px; /* 余白 */
+            text-align: left; /* 横方向は左寄せ */
+            vertical-align: middle; /* 縦方向は中央寄せ */
+        }
+
+        .rankCell img {
+            width: 80px; /* 画像サイズを統一 */
+            height: auto;
+        }
+
         #kanjiDisplay {
             font-size: 25px;
             font-weight: bold;
@@ -641,6 +657,19 @@ function calculateScore() {
                 <tr><td>⚡ キースピード</td><td>${keySpeed} 回/分</td><td>はやくうてたかな？</td></tr>
                 <tr><td>🏆 スコア</td><td>${score}</td><td>あなたのせいせき</td></tr>
             </table>
+            // **級数に応じた画像をセット**
+            document.getElementById("nankyu").innerHTML = `
+                <table class="rankTable">
+                    <tr>
+                        <td class="rankCell"><img src="medal${rank}.png" alt="メダル ${rank}級"></td>
+                        <td class="rankCell"><img src="grade${rank}.png" alt="級 ${rank}級"></td>
+                    </tr>
+                </table>
+`;
+
+// **取得級のデバッグログ**
+console.log("表示する画像: medal" + rank + ".png, grade" + rank + ".png");
+
         `;
 
         // **成績エリアを表示**seisekiContent
