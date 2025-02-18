@@ -504,11 +504,11 @@ function calculateScore() {
     let rawGrade = 0;
 
     if (selectedGrade == 1) {
-        rawGrade = Math.round(score / 2);
+        rawGrade = Math.round(score * 0.8);
     } else if (selectedGrade == 2) {
-        rawGrade = Math.round(score / 3);
+        rawGrade = Math.round(score * 0.7);
     } else if (selectedGrade == 3) {
-        rawGrade = Math.round(score / 4);
+        rawGrade = Math.round(score * 0.5);
     }
 
     // **補正後のスコア**
