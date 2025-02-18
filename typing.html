@@ -97,9 +97,15 @@
             width: 100%; /* 親要素の幅に合わせる */
             border-collapse: collapse; /* テーブルの隙間をなくす */
         }
-
         #seisekiContent td {
             padding: 5px 10px; /* 余白をつける */
+        }
+        .seisekiTitle {
+            font-size: 20px; /* フォントサイズを20pxに */
+            font-weight: bold; /* 太字に */
+            text-decoration: underline; /* 下線を追加 */
+            margin-bottom: 10px; /* 下に余白を追加 */
+            text-align: center; /* 中央揃え（お好みで） */
         }
         #kanjiDisplay {
             font-size: 25px;
@@ -264,7 +270,7 @@
         <p>終了！</p>
     </div>
     <div id="seisekiDisplay">
-        <p>せいせきはっぴょう</p>
+        <p class="seisekiTitle">せいせきはっぴょう</p>
         <p id="seisekiContent"></p>
     </div>
     <p class="romaji" id="romajiDisplay"></p>
