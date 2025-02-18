@@ -657,20 +657,19 @@ function calculateScore() {
                 <tr><td>⚡ キースピード</td><td>${keySpeed} 回/分</td><td>はやくうてたかな？</td></tr>
                 <tr><td>🏆 スコア</td><td>${score}</td><td>あなたのせいせき</td></tr>
             </table>
-            // **級数に応じた画像をセット**
-            document.getElementById("nankyu").innerHTML = `
-                <table class="rankTable">
-                    <tr>
-                        <td class="rankCell"><img src="medal${rank}.png" alt="メダル ${rank}級"></td>
-                        <td class="rankCell"><img src="grade${rank}.png" alt="級 ${rank}級"></td>
-                    </tr>
-                </table>
-`;
-
-// **取得級のデバッグログ**
-console.log("表示する画像: medal" + rank + ".png, grade" + rank + ".png");
-
         `;
+        // **級数に応じた画像をセット**
+        document.getElementById("nankyu").innerHTML = `
+            <table class="rankTable">
+                <tr>
+                    <td class="rankCell"><img src="medal${rank}.png" alt="メダル ${rank}級"></td>
+                    <td class="rankCell"><img src="grade${rank}.png" alt="級 ${rank}級"></td>
+                </tr>
+            </table>
+        `;
+
+        // **取得級のデバッグログ**
+        console.log("表示する画像: medal" + rank + ".png, grade" + rank + ".png");
 
         // **成績エリアを表示**seisekiContent
         document.getElementById("seisekiDisplay").style.display = "flex";
