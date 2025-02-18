@@ -122,6 +122,9 @@
             width: auto; /* 画像サイズを統一 */
             height: 100px;
         }
+        .scoreTable .alignRight {
+            text-align: right !important; /* 2列目を強制的に右寄せ */
+        }
 
         #kanjiDisplay {
             font-size: 25px;
@@ -672,7 +675,7 @@ function calculateScore() {
         console.log("渡した取得級:", rank);
         // **スコア情報を挿入**
         document.getElementById("seisekiContent").innerHTML = `
-            <table>
+            <table class="scoreTable">
                 <tr><td>🎯 せいかくさ</td><td class="alignRight">${accuracy}%</td><td>まちがえないでうてたかな？</td></tr>
                 <tr><td>⚡ スピード</td><td class="alignRight">${keySpeed} 回/分</td><td>はやくうてたかな？</td></tr>
                 <tr><td>🏆 てんすう</td><td class="alignRight">${score}</td><td>あなたのせいせき</td></tr>
