@@ -431,7 +431,7 @@
         }
 function calculateScore() {
 
-    endTime = Date.now();
+    
     console.log("ミステイクカウント:", mistakeCount);
     
     // **経過時間 (秒) を計算**
@@ -460,7 +460,9 @@ function calculateScore() {
     let rawScore = Math.round(accuracy + adjustedSpeed - adjustedMistake);
 
     // **スコアの補正**
-    let score = Math.max(0, Math.round(rawScore / 6)); 
+    let score = Math.max(0, Math.round(rawScore / 6));
+
+    showSeisekiScreen(accuracy, keySpeed, score); // **成績エリアを表示**
     
     // **デバッグ用ログ**
     console.log("ミステイクの影響:", adjustedMistake);
@@ -600,8 +602,9 @@ function calculateScore() {
             🏆 スコア: ${score}
         `;
 
-        // **成績エリアを表示**
+        // **成績エリアを表示**seisekiContent
         document.getElementById("seisekiDisplay").style.display = "flex";
+        document.getElementById("seisekiContent").style.display = "flex";
         }
 
 
@@ -618,7 +621,7 @@ function calculateScore() {
                 document.getElementById("romajiDisplay").style.display = "none";
                 document.getElementById("handsContainer").style.display = "none";
                 document.getElementById("keyboard").style.display = "none";
-                showSeisekiScreen(accuracy, keySpeed, score); // **成績エリアを表示**
+                calculateScore();  // **スコアを計算**
             }, 3000); // **3秒 (3000ミリ秒) 待つ**
         }
 
@@ -626,7 +629,7 @@ function calculateScore() {
         // 問題をセットする関数
         function setRandomQuestion() {
             if (questionCount >= maxQuestions || remainingQuestions.length === 0) {
-                calculateScore();  // **スコアを計算**
+                endTime = Date.now();
                 showScoreScreen(); // **スコア画面を即座に表示**
                 return;
             }
