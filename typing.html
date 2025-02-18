@@ -89,7 +89,7 @@
             flex-direction: column;
         }
         #seisekiContent {
-            width: 550px;   /* 幅を300pxに指定 */
+            width: 520px;   /* 幅を300pxに指定 */
             margin: 0 auto; /* 中央配置 */
             text-align: left; /* 左寄せ */
         }
@@ -488,17 +488,17 @@ function calculateScore() {
     console.log("キースピード:", keySpeed);
 
     // **ミスタイプの影響を調整**
-    let adjustedMistake = mistakeCount * 125;  // ミスの影響を増やす
+    let adjustedMistake = mistakeCount * 105;  // ミスの影響を増やす
 
     // **キースピードの影響を補正**
     let adjustedSpeed = Math.pow(keySpeed, 0.9) * 20;  // 速度の影響を調整
     console.log("キースピードの補正後:", adjustedSpeed);
 
     // **スコアの計算**
-    let rawScore = Math.round(accuracy + adjustedSpeed - adjustedMistake);
+    let rawScore = Math.round(adjustedSpeed * (accuracy / 100) - adjustedMistake);
 
     // **スコアの補正**
-    let score = Math.max(0, Math.round(rawScore / 6));
+    let score = Math.max(0, Math.round(rawScore / 5));
 
     // **学年によるスコア補正**
     let rawGrade = 0;
