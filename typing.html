@@ -87,15 +87,17 @@
             align-items: center;
             border: 3px solid black; /* 黒の枠線 (3px) */
         }
-        @keyframes zoomIn {
-            0% { opacity: 0; transform: scale(0.5); }
-            100% { opacity: 1; transform: scale(1.2); }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
         }
 
         #result {
             font-size: 30px;
             font-weight: bold;
             animation: zoomIn 0.5s ease-out;
+            opacity: 0; /* 最初は透明 */
         }
 
         #kanjiDisplay {
@@ -626,6 +628,11 @@ function calculateScore() {
 
             // **スコアエリアを表示**
             document.getElementById("scoreDisplay").style.display = "flex";
+            setTimeout(() => {
+                let resultText = document.getElementById("result");
+                resultText.style.opacity = "1"; // 透明 → 表示
+                resultText.style.animation = "blink 1s infinite"; // 点滅アニメーションを適用
+            }, 100); // 0.1秒後に適用（すぐに反映されるように）
 
             // **3秒後にスコアエリアを非表示 & 成績エリアを表示**
             setTimeout(() => {
