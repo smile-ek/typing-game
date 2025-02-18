@@ -650,6 +650,7 @@ function calculateScore() {
         }
 
         function showSeisekiScreen(accuracy, keySpeed, score, rank) {
+        console.log("渡した取得級:", rank);
         // **スコア情報を挿入**
         document.getElementById("seisekiContent").innerHTML = `
             <table>
