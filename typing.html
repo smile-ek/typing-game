@@ -500,6 +500,25 @@ function calculateScore() {
     // **スコアの補正**
     let score = Math.max(0, Math.round(rawScore / 6));
 
+    // **学年によるスコア補正**
+    let rawGrade = 0;
+
+    if (selectedGrade == 1) {
+        rawGrade = Math.round(score / 2);
+    } else if (selectedGrade == 2) {
+        rawGrade = Math.round(score / 3);
+    } else if (selectedGrade == 3) {
+        rawGrade = Math.round(score / 4);
+    }
+
+    // **補正後のスコア**
+    score += rawGrade;
+
+    // **デバッグログ**
+    console.log("スコア補正前:", rawScore);
+    console.log("スコア補正値 (rawGrade):", rawGrade);
+    console.log("スコア補正後:", score);
+
     // **取得級を格納する変数**
     let rank;
 
