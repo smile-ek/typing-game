@@ -787,6 +787,7 @@ function calculateScore() {
             // **「n」で終わる単語の後に「n」を打った場合の特別処理**
             if (previousWordEndedWithN === 1 && currentIndex === 0 && key === "n") {
                 console.log("前の単語が「n」で終わったため、ミスカウントせずスキップ");
+                totalKeysPressed--;  // **totalKeysPressed を補正**
                 previousWordEndedWithN = 0; // **処理を一度だけ実行するためにリセット**
                 return; // **「n」は無視して次のキー入力を待つ**
             }
